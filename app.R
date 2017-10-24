@@ -19,7 +19,8 @@ require(tidyr, quietly = TRUE)
 require(stringr, quietly = TRUE)
 require(parallel, quietly = TRUE)
 source("save_scraper.R")
-source("value_scraper.R")
+source("data_compiler.R")
+
 
 # Define UI for application
 ui <- fluidPage(title = "Alliance comparisons in EU4",
@@ -82,13 +83,13 @@ server <- function(input, output) {
     inFile <- input$data$datapath
     
     if (is.null(input$data)){
-      # save <- readLines(con = "MP_RotR_latest.eu4", encoding = "UTF-8", warn = FALSE)
+      # save <- readLines(con = "C:/Users/Canadice/Documents/Paradox Interactive/Europa Universalis IV/save games/MP_RotR_latest.eu4", encoding = "ANSI", warn = FALSE)
       # game_data <- save_processing(save)
       # save(game_data, file = "latest_rotr.RData")
       
       load("latest_rotr.RData")
     } else {
-      save <- readLines(con = inFile, encoding = "UTF-8", warn = FALSE)  
+      save <- readLines(con = inFile, encoding = "ANSI", warn = FALSE)  
       
       game_data <- save_processing(save)
     }

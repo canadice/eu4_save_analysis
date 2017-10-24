@@ -1,7 +1,76 @@
 # Compiles the following information using function information_finder from value_scraper
-source("value_scraper.R")
+information_finder <- function(vector, pattern){
+  # Loads required packages and functions
+  require(stringr, quietly = TRUE)
+  require(dplyr, quietly = TRUE)
+  
+  # Otherwise all the other standard values wanted should be right after the information tag (pattern) and =
+  if(pattern != "continent"){
+    if(!any(str_detect(vector, pattern))){
+      return(NA)
+    } else {
+      # Finds the element in the current list where the pattern exists
+      data <- vector[which(str_detect(vector, pattern))]
+      
+      # Takes the value as it comes after the splitting symbol "="
+      data <- unlist(str_split(data, pattern = "="))[2]
+    }
+    
+    # Since continent is a vector of six 0s and 1s this one is different
+  } else {
+    data <- vector[which(str_detect(vector, pattern))+1]
+    
+    data <- str_trim(str_sub(data, start = 4), side = "right")
+    
+    data <- str_extract(unlist(str_split(data, " ")), "[0-9]")
+    
+    if(any(data == 1)){
+      data <- which(data == 1)[1]  
+    } else {
+      return(NA)
+    }
+  }
+  return(data)
+}
+
+
+province_information_scraper <- function(list_vector){
+  # Loads required packages and functions
+  require(stringr, quietly = TRUE)
+  require(dplyr, quietly = TRUE)
+  
+  information_indices <- str_detect(list_vector, pattern = "=") & !str_detect(list_vector, pattern = "[{}]")
+  
+  information <- list_vector[information_indices]  
+  
+  information_indices <- str_detect(information, pattern = "^\t\t[a-z]")
+  
+  information <- information[information_indices]
+  
+  clean_information <- str_replace_all(information, pattern = "[\t\"]", replacement = "")
+  
+  clean_information_matrix <- matrix(unlist(str_split(string = clean_information, pattern = "=")), ncol = length(clean_information), byrow = FALSE)
+  
+  var_names <- clean_information_matrix[1,]
+  
+  if(any(duplicated(var_names))){
+    var_names[duplicated(var_names)] <- paste(var_names[duplicated(var_names)], 1:sum(duplicated(var_names)), sep = "")  
+  }
+  
+  clean_information_data <- as.data.frame(t(data.frame(values = clean_information_matrix[2,], row.names = var_names)), stringsAsFactors = FALSE)
+  
+  num_indices <- sapply(clean_information_data, FUN = function(x){!is.na(suppressWarnings(as.numeric(x)))})
+  
+  clean_information_data[,num_indices] <- sapply(clean_information_data[,num_indices], FUN = as.numeric)
+  
+  return(clean_information_data)  
+}
 
 country_information_compiler <- function(x){
+  # Loads required packages and functions
+  require(stringr, quietly = TRUE)
+  require(dplyr, quietly = TRUE)
+  
   name <- str_extract(x[1], "[A-Z]{3}")
   continent <- information_finder(x, "continent")
   gov_rank <- information_finder(x, "government_rank")
@@ -13,7 +82,7 @@ country_information_compiler <- function(x){
   manpower <- information_finder(x, "max_manpower=")
   cur_army_size <- information_finder(x, "num_of_regulars")
   religion <- information_finder(x, "^\t\treligion=")
-  capital <- information_finder(x, "^\t\tcapital=")
+  capital <- as.numeric(information_finder(x, "^\t\tcapital="))
   
   data <- cbind(name, continent, gov_rank, development, great_power, cur_treasury, 
                 est_month_income, mil_strength, manpower, cur_army_size, religion, capital)
@@ -22,10 +91,16 @@ country_information_compiler <- function(x){
 }
 
 province_information_compiler <- function(x){
-  capital <- str_extract(x[1], "[0-9]+")
-  hre <- information_finder(x, "hre=")
+  # Loads required packages and functions
+  require(stringr, quietly = TRUE)
+  require(dplyr, quietly = TRUE)
+
+  PID <- as.numeric(str_extract(x[1], "[0-9]+"))
+  hre <- as.character(information_finder(x, "hre="))
   
-  data <- cbind(capital, hre)
+  other_information <- province_information_scraper(x)
+  
+  data <- cbind(PID, hre, other_information)
   
   return(data)
 }
