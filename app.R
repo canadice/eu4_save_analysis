@@ -86,7 +86,7 @@ ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
                )
              )
     ),
-    tabPanel("Exports",
+    tabPanel("Exports - Under construction",
              fluidRow(
                column(width = 2,
                       wellPanel(
