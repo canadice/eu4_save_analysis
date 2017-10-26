@@ -54,6 +54,28 @@ save_processing <- function(save){
   province_data <- data %>% 
     Reduce(function(dtf1,dtf2) suppressWarnings(bind_rows(dtf1,dtf2)), .)
   
+  # Finds the column index for sorting
+  buildings <- which(colnames(province_data) %in% c("marketplace", "workshop", "temple", "barracks", "shipyard", "fort_15th",
+                                                   "courthouse", "dock", "regimental_camp", "fort_16th",
+                                                   "cathedral", "university", "trade_depot", "grand_shipyard", "training_fields", "fort_17th",
+                                                   "stock_exchange", "counting_house", "town_hall", "drydock", "conscription_center", "fort_18th",
+                                                   "wharf", "weapons", "textile", "plantations", "tradecompany")
+                     )
+
+  fort <- which(str_detect(colnames(x = province_data), pattern = "^fort_inf"))
+  cores <- which(str_detect(colnames(x = province_data), pattern = "^core"))
+  claims <- which(str_detect(colnames(x = province_data), pattern = "^claim"))
+  base <- which(str_detect(colnames(x = province_data), pattern = "^base"))
+  PID <- which(str_detect(colnames(x = province_data), pattern = "^PID"))
+  originals <- which(str_detect(colnames(x = province_data), pattern = "^original"))
+  info <- which(colnames(province_data) %in% c("name", "culture", "religion", "capital", "trade_goods", "trade_power",
+                                               "trade", "local_autonomy", "hre", "owner")
+  )
+
+  ordering_index <- c(PID, info, base, buildings, fort, cores, claims, originals)
+  
+  province_data <- province_data[,order(colnames(province_data))]
+  
   # Compiles the country data to a list
   data <- lapply(country_data_split, FUN = country_information_compiler)
   
@@ -69,7 +91,9 @@ save_processing <- function(save){
   # Merges with the country name data from tags
   country_data <- country_data %>% inner_join(tags, by = c("name" = "Tag"))
   
+  resulting_data <- list(province = province_data, country = country_data[which(!is.na(country_data$continent)),])
+  
   # Returns a data set with all countries that have a continent value (NA usually indicate that they do not exist at the time of the save)
-  return(country_data[which(!is.na(country_data$continent)), ])  
+  return(resulting_data)  
 }
 
