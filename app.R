@@ -86,13 +86,15 @@ ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
                )
              )
     ),
-    tabPanel("Exports - Under construction",
+    tabPanel("Data tables - Under construction",
              fluidRow(
                column(width = 2,
                       wellPanel(
                         radioButtons(inputId = "export_choice", label = "Select data to visualize.", 
                                      choices = c("Province", "Country")
-                        )
+                        ),
+                        uiOutput("export_province_vars"),
+                        uiOutput("export_country_vars")
                       )
                ),
                column(width = 10,
@@ -214,14 +216,35 @@ server <- function(input, output) {
   #################################################
   ### Tables of data 
   #################################################
+  output$export_province_vars <- renderUI({
+    if(input$export_choice != "Province"){
+      return(NULL)
+    } else {
+      selectInput(inputId = "export_province_choice", label = "Select variables to show:", 
+                  choices = colnames(getData()$province),
+                  multiple = TRUE
+      )
+    }
+  })
+  
   output$province_data <- renderDataTable({
     if(input$export_choice != "Province"){
       return(NULL)
     } else {
       getData()$province    
     }
-  }, options = list(orderClasses = TRUE,pageLength = 5)
+  }, options = list(orderClasses = TRUE,pageLength = 10)
   )
+  
+  output$export_country_vars <- renderUI({
+    if(input$export_choice != "Country"){
+      return(NULL)
+    } else {
+      checkboxGroupInput(inputId = "export_country_choice", label = "Select variables to show:", 
+                         choices = colnames(getData()$country)
+      )
+    }
+  })
   
   output$country_data <- renderDataTable({
     if(input$export_choice != "Country"){
@@ -229,7 +252,7 @@ server <- function(input, output) {
     }  else {
       getData()$country    
     }
-  }, options = list(orderClasses = TRUE,pageLength = 5)
+  }, options = list(orderClasses = TRUE,pageLength = 10)
   )
   
   

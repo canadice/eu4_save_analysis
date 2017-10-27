@@ -91,6 +91,10 @@ save_processing <- function(save){
   # Merges with the country name data from tags
   country_data <- country_data %>% inner_join(tags, by = c("tag" = "Tag"))
   
+  ind <- c("tag", "Name") 
+  
+  country_data <- country_data[, c(ind, colnames(country_data)[!colnames(country_data) %in% ind])]
+  
   resulting_data <- list(province = province_data, country = country_data[which(!is.na(country_data$continent)),])
   
   # Returns a data set with all countries that have a continent value (NA usually indicate that they do not exist at the time of the save)
