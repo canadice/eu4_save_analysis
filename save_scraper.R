@@ -74,7 +74,7 @@ save_processing <- function(save){
 
   ordering_index <- c(PID, info, base, buildings, fort, cores, claims, originals)
   
-  province_data <- province_data[,order(colnames(province_data))]
+  province_data <- province_data[,c(ordering_index, (1:ncol(province_data))[-ordering_index])]
   
   # Compiles the country data to a list
   data <- lapply(country_data_split, FUN = country_information_compiler)
@@ -89,7 +89,7 @@ save_processing <- function(save){
   country_data <- country_data %>% left_join(province_data[, c("PID", "hre")], by = c("capital" = "PID"))
   
   # Merges with the country name data from tags
-  country_data <- country_data %>% inner_join(tags, by = c("name" = "Tag"))
+  country_data <- country_data %>% inner_join(tags, by = c("tag" = "Tag"))
   
   resulting_data <- list(province = province_data, country = country_data[which(!is.na(country_data$continent)),])
   

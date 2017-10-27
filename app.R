@@ -35,7 +35,7 @@ ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
                       wellPanel(
                         h4("The latest RotR save is already loaded."),
                         actionButton(inputId = "data_choice", 
-                                     label = "I want to upload my own save!"),
+                                     label = "Upload new .eu4"),
                         br(), 
                         br(),
                         withSpinner(uiOutput("upload")) 
@@ -90,11 +90,14 @@ ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
              fluidRow(
                column(width = 2,
                       wellPanel(
-                        
+                        radioButtons(inputId = "export_choice", label = "Select data to visualize.", 
+                                     choices = c("Province", "Country")
+                        )
                       )
                ),
                column(width = 10,
-                      dataTableOutput("province_data")
+                      dataTableOutput("province_data"),
+                      dataTableOutput("country_data")
                )
              )
     )
@@ -211,12 +214,23 @@ server <- function(input, output) {
   #################################################
   ### Tables of data 
   #################################################
-  output$province_data <- renderDataTable(getData()$province, 
-                                          options = list(
-                                            orderClasses = TRUE,
-                                            pageLength = 5,
-                                            initComplete = I("function(settings, json) {alert('Done.');}")
-  ))
+  output$province_data <- renderDataTable({
+    if(input$export_choice != "Province"){
+      return(NULL)
+    } else {
+      getData()$province    
+    }
+  }, options = list(orderClasses = TRUE,pageLength = 5)
+  )
+  
+  output$country_data <- renderDataTable({
+    if(input$export_choice != "Country"){
+      return(NULL)
+    }  else {
+      getData()$country    
+    }
+  }, options = list(orderClasses = TRUE,pageLength = 5)
+  )
   
   
   #################################################
