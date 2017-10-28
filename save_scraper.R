@@ -6,6 +6,15 @@ save_processing <- function(save){
   tags <- read.csv2("tags.csv")
   
   ##########################################################################
+  ### Subsetting
+  ##########################################################################
+  
+  ### Starts the splitting for meta-data
+  # The first part of data existing in the save is trade, meta is above
+  end <- which(str_detect(save, pattern = "^trade"))[1]
+  
+  meta <- save[1:(end - 1)]
+  
   ### Splits the save file into the nations parts, starting at the first nation
   ### Last list object contains the last nation information + all the rest of the save...
   # Detects where to start looking for country data
@@ -24,7 +33,6 @@ save_processing <- function(save){
   indices <- do.call(list, mapply(seq, starts, ends))
   country_data_split <- lapply(indices, FUN = function(x){country_data[x]})
   
-  ##########################################################################
   ### Splits the save file into the province parts, starting at the first province
   ### Last list object contains the last province information + all the rest of the save...
   # Detects where to start the individual province data
@@ -42,7 +50,10 @@ save_processing <- function(save){
   rm(list = c("ends", "starts", "starts_provinces", "ends_provinces", "start_country", "indices", "save"))
   
   ##########################################################################
-
+  ### Structuring & scraping
+  ##########################################################################
+  meta_data <- meta_information_scraper(meta)
+  
   # Compiles the province data to a list, parallel processing to speed the list up
   cl <- makeCluster(getOption("cl.cores", 4))
   clusterExport(cl, varlist = c("information_finder", "province_information_scraper"))
@@ -95,7 +106,11 @@ save_processing <- function(save){
   
   country_data <- country_data[, c(ind, colnames(country_data)[!colnames(country_data) %in% ind])]
   
-  resulting_data <- list(province = province_data, country = country_data[which(!is.na(country_data$continent)),])
+  if(!all(is.na(country_data$continent))){
+    country_data <- country_data[which(!is.na(country_data$continent)),]
+  }
+  
+  resulting_data <- list(meta = meta_data, province = province_data, country = country_data)
   
   # Returns a data set with all countries that have a continent value (NA usually indicate that they do not exist at the time of the save)
   return(resulting_data)  

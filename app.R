@@ -11,6 +11,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 # setwd("F:/GitHubs/eu4_save_analysis")
 
 library(shiny, quietly = TRUE)
+library(shinythemes, quietly = TRUE)
 library(stringr, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
 require(dplyr, quietly = TRUE)
@@ -23,18 +24,17 @@ source("data_compiler.R")
 
 
 # Define UI for application
-ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
+ui <- fluidPage(theme = shinytheme("united"), title = "Save analyzer for Europa Universalis 4",
   
-  titlePanel("Alliance comparisons in EU4"),
+  uiOutput(outputId = "title"),
   
   navbarPage("Functions",
     tabPanel("Import",
              fluidRow(
                column(width = 2,
                       wellPanel(
-                        h4("The latest RotR save is already loaded."),
                         actionButton(inputId = "data_choice", 
-                                     label = "Upload new .eu4"),
+                                     label = "Upload uncompressed .eu4"),
                         br(), 
                         br(),
                         withSpinner(uiOutput("upload")) 
@@ -42,55 +42,55 @@ ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
                )
              )
     ),
-    tabPanel("Religion",
+    tabPanel("Religion comparison",
              fluidRow(
                column(width = 2,
                       wellPanel(
-                        uiOutput("continents"),
+                        withSpinner(uiOutput("continents")),
                         checkboxGroupInput(inputId = "religion_choice", label = "Select religons(s) to be compared:", 
                                            choices = sort(c("Catholic", "Protestant", "Reformed", "Orthodox", "Sunni"))
                         )
                       )
                ),
                column(width = 10,
-                      plotOutput("circle_facet_religion")
+                      withSpinner(plotOutput("circle_facet_religion"))
                       )
                )
     ),
-    tabPanel("HRE",
+    tabPanel("HRE comparison",
              fluidRow(
                column(width = 2,
                       wellPanel(
-                        uiOutput("continents2")
+                        withSpinner(uiOutput("continents2"))
                       )
                ),
                column(width = 10,
-                      plotOutput("circle_facet_HRE")
+                      withSpinner(plotOutput("circle_facet_HRE"))
                )
              )
     ),
-    tabPanel("Own groupings",
+    tabPanel("Own groupings Comparison",
              fluidRow(
                column(width = 2,
                       wellPanel(
-                        uiOutput("continents3"),
-                        uiOutput("own_team1"),
-                        uiOutput("attacking"),
-                        uiOutput("own_team2"),
-                        uiOutput("defending")
+                        withSpinner(uiOutput("continents3")),
+                        withSpinner(uiOutput("own_team1")),
+                        withSpinner(uiOutput("attacking")),
+                        withSpinner(uiOutput("own_team2")),
+                        withSpinner(uiOutput("defending"))
                       )
                ),
                column(width = 10,
-                      plotOutput("circle_facet")
+                      withSpinner(plotOutput("circle_facet"))
                )
              )
     ),
-    tabPanel("Data tables - Under construction",
+    tabPanel("Data tables & Exports",
              fluidRow(
                column(width = 2,
                       wellPanel(
                         radioButtons(inputId = "export_choice", label = "Select data to visualize.", 
-                                     choices = c("Province", "Country")
+                                     choices = c("None selected", "Province", "Country")
                         ),
                         uiOutput("export_province_vars"),
                         uiOutput("export_country_vars")
@@ -100,15 +100,15 @@ ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
                       fluidRow(
                         column(width = 12,
                                dataTableOutput("province_data"),
-                              dataTableOutput("country_data")
+                               dataTableOutput("country_data")
                         )
                       ),
                       fluidRow(
                         column(width = 2,
-                               uiOutput("export_data_button")
+                               withSpinner(uiOutput("export_data_button"))
                         ),
                         column(width = 2,
-                               uiOutput("export_data_button_view")
+                               withSpinner(uiOutput("export_data_button_view"))
                         )
                       )
                )
@@ -119,6 +119,22 @@ ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
 
 # Define server logic 
 server <- function(input, output) {
+  #################################################
+  ### title
+  #################################################
+  output$title <- renderUI({
+    meta_data <- getData()$meta
+    
+    titlePanel(
+      fluidRow(column(width = 1),
+               column(width = 5,
+                      h1("Save analyzer for Europa Universalis 4"),
+                      h4(paste("Current date of the loaded save", meta_data$save_game, "is", meta_data$date))
+               )
+      )
+    )
+  })
+  
   #################################################
   ### Parsing data
   #################################################
@@ -138,12 +154,6 @@ server <- function(input, output) {
       game_data <- save_processing(save)
     }
 
-    if(!is.null(input$continent_choice)){
-      continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
-      
-      game_data$country <- game_data$country[game_data$country$continent %in% continents,]
-    }
-        
     return(game_data)
   })
   
@@ -158,8 +168,15 @@ server <- function(input, output) {
     }
     game_data <- getData()$country
     
+    # Subsets continents
+    if(!is.null(input$continent_choice)){
+      continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+      
+      game_data <- game_data[game_data$continent %in% continents,]
+    }
+    
     game_data_table <- group_by(.data = game_data[game_data$religion %in% str_to_lower(input$religion_choice),], religion) %>% 
-      summarize_at(.vars = 4:10, .funs = sum, na.rm = TRUE) %>%
+      summarize_at(.vars = 5:11, .funs = sum, na.rm = TRUE) %>%
       mutate_at(.vars = 2:8, .funs = prop.table)
     
     
@@ -195,8 +212,15 @@ server <- function(input, output) {
     
     game_data <- getData()$country
     
+    # Subsets continents
+    if(!is.null(input$continent_choice)){
+      continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+      
+      game_data <- game_data[game_data$continent %in% continents,]
+    }
+    
     game_data_table <- group_by(.data = game_data[!is.na(game_data$hre),], hre) %>% 
-      summarize_at(.vars = 4:10, .funs = sum, na.rm = TRUE) %>%
+      summarize_at(.vars = 5:11, .funs = sum, na.rm = TRUE) %>%
       mutate_at(.vars = 2:8, .funs = prop.table)
     
     
@@ -250,8 +274,17 @@ server <- function(input, output) {
     if(input$export_choice != "Country"){
       return(NULL)
     } else {
+      
+      game_data <- getData()$country
+      # Subsets continents
+      if(!is.null(input$continent_choice)){
+        continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+        
+        game_data <- game_data[game_data$continent %in% continents,]
+      }
+      
       checkboxGroupInput(inputId = "export_country_choice", label = "Select variables to show:", 
-                         choices = colnames(getData()$country)[colnames(getData()$country) != "Name"]
+                         choices = colnames(game_data)[colnames(game_data) != "Name"]
       )
     }
   })
@@ -260,7 +293,16 @@ server <- function(input, output) {
     if(input$export_choice != "Country"){
       return(NULL)
     }  else {
-      getData()$country[, c("Name", input$export_country_choice)]    
+      
+      game_data <- getData()$country
+      # Subsets continents
+      if(!is.null(input$continent_choice)){
+        continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+        
+        game_data <- game_data[game_data$continent %in% continents,]
+      }
+      
+      game_data[, c("Name", input$export_country_choice)]    
     }
   }, options = list(orderClasses = TRUE,pageLength = 10)
   )
@@ -292,7 +334,15 @@ server <- function(input, output) {
   output$export_country <- downloadHandler(
     filename = "country_data.csv", 
     content = function(file){
-      write.csv(getData()$country, file, row.names = FALSE)
+      game_data <- getData()$country
+      # Subsets continents
+      if(!is.null(input$continent_choice)){
+        continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+        
+        game_data <- game_data[game_data$continent %in% continents,]
+      }
+      
+      write.csv(game_data, file, row.names = FALSE)
     }
   )
   
@@ -306,7 +356,15 @@ server <- function(input, output) {
   output$export_country_view <- downloadHandler(
     filename = "country_data_view.csv", 
     content = function(file){
-      write.csv(getData()$country[, c("Name", input$export_country_choice)], file, row.names = FALSE)
+      game_data <- getData()$country
+      # Subsets continents
+      if(!is.null(input$continent_choice)){
+        continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+        
+        game_data <- game_data[game_data$continent %in% continents,]
+      }
+      
+      write.csv(game_data[, c("Name", input$export_country_choice)], file, row.names = FALSE)
     }
   )
   
@@ -377,6 +435,12 @@ server <- function(input, output) {
   
   output$attacking <- renderUI({
     game_data <- getData()$country
+    # Subsets continents
+    if(!is.null(input$continent_choice)){
+      continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+      
+      game_data <- game_data[game_data$continent %in% continents,]
+    }
     
     # Marking nations fighting on the other side of the war
     selectInput(inputId = "axis", label = paste("Select nations on the", input$team_1 ,"side:"), 
@@ -398,6 +462,12 @@ server <- function(input, output) {
   
   output$defending <- renderUI({
     game_data <- getData()$country
+    # Subsets continents
+    if(!is.null(input$continent_choice)){
+      continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+      
+      game_data <- game_data[game_data$continent %in% continents,]
+    }
     
     # Marking nations fighting on the other side of the war
     selectInput(inputId = "allies", label = paste("Select nations on the", input$team_2 ,"side:"), 
@@ -417,6 +487,12 @@ server <- function(input, output) {
     }
     
     game_data <- getData()$country
+    # Subsets continents
+    if(!is.null(input$continent_choice)){
+      continents <- as.numeric(factor(input$continent_choice, levels = c("Europe", "Asia", "Africa", "America")))  
+      
+      game_data <- game_data[game_data$continent %in% continents,]
+    }
     
     
     
@@ -426,7 +502,7 @@ server <- function(input, output) {
     game_data$Alliance[which(game_data$Name %in% input$allies)] <- input$team_2
     
     game_data_table <- group_by(.data = game_data[!is.na(game_data$Alliance),], Alliance) %>% 
-      summarize_at(.vars = 4:10, .funs = sum, na.rm = TRUE) %>%
+      summarize_at(.vars = 5:11, .funs = sum, na.rm = TRUE) %>%
       mutate_at(.vars = 2:8, .funs = prop.table)
     
     

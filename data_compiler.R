@@ -5,7 +5,7 @@ information_finder <- function(vector, pattern){
   require(dplyr, quietly = TRUE)
   
   # Otherwise all the other standard values wanted should be right after the information tag (pattern) and =
-  if(pattern != "continent"){
+  if(pattern != "^\t\tcontinent=\\{"){
     if(!any(str_detect(vector, pattern))){
       return(NA)
     } else {
@@ -66,13 +66,36 @@ province_information_scraper <- function(list_vector){
   return(clean_information_data)  
 }
 
+meta_information_scraper <- function(vector){
+  information_indices <- str_detect(vector, pattern = "=") & !str_detect(vector, pattern = "[{}]")
+  
+  information <- vector[information_indices]  
+  
+  clean_information <- str_replace_all(information, pattern = "[\t\"]", replacement = "")
+  
+  # Removes flags
+  clean_information <- clean_information[!(str_detect(clean_information, "[0-9]{4}\\.[0-9]{1,2}\\.[0-9]") & !str_detect(clean_information, pattern = "date"))]
+  
+  clean_information_matrix <- matrix(unlist(str_split(string = clean_information, pattern = "=")), ncol = length(clean_information), byrow = FALSE)
+  
+  var_names <- clean_information_matrix[1,]
+  
+  clean_information_data <- as.data.frame(t(data.frame(values = clean_information_matrix[2,], row.names = var_names)), stringsAsFactors = FALSE)
+  
+  num_indices <- sapply(clean_information_data, FUN = function(x){!is.na(suppressWarnings(as.numeric(x)))})
+  
+  clean_information_data[,num_indices] <- sapply(clean_information_data[,num_indices], FUN = as.numeric)
+  
+  return(clean_information_data) 
+}
+
 country_information_compiler <- function(x){
   # Loads required packages and functions
   require(stringr, quietly = TRUE)
   require(dplyr, quietly = TRUE)
   
   tag <- str_extract(x[1], "[A-Z]{3}")
-  continent <- information_finder(x, "continent")
+  continent <- information_finder(x, "^\t\tcontinent=\\{")
   gov_rank <- information_finder(x, "government_rank")
   development <- information_finder(x, "raw_development")
   great_power <- information_finder(x, "great_power_score")
