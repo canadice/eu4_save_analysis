@@ -5,8 +5,8 @@ account: canadice
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 228712
-bundleId: 1046872
+bundleId: 1049526
 url: https://canadice.shinyapps.io/eu4_save_analysis/
-when: 1509045213.4047
+when: 1509193362.25508
 asMultiple: FALSE
 asStatic: FALSE

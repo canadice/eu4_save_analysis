@@ -8,8 +8,7 @@
 #
 
 options(shiny.maxRequestSize = 60*1024^2)
-# Sys.setlocale("LC_ALL", 'English')
-# options(encoding = "UTF-8")
+# setwd("F:/GitHubs/eu4_save_analysis")
 
 library(shiny, quietly = TRUE)
 library(stringr, quietly = TRUE)
@@ -98,13 +97,25 @@ ui <- fluidPage(title = "Save scraper for Europa Universalis 4",
                       )
                ),
                column(width = 10,
-                      dataTableOutput("province_data"),
-                      dataTableOutput("country_data")
+                      fluidRow(
+                        column(width = 12,
+                               dataTableOutput("province_data"),
+                              dataTableOutput("country_data")
+                        )
+                      ),
+                      fluidRow(
+                        column(width = 2,
+                               uiOutput("export_data_button")
+                        ),
+                        column(width = 2,
+                               uiOutput("export_data_button_view")
+                        )
+                      )
                )
              )
     )
-  )
-)
+  ) # End navbarPage
+) # End fluidPage
 
 # Define server logic 
 server <- function(input, output) {
@@ -220,9 +231,8 @@ server <- function(input, output) {
     if(input$export_choice != "Province"){
       return(NULL)
     } else {
-      selectInput(inputId = "export_province_choice", label = "Select variables to show:", 
-                  choices = colnames(getData()$province),
-                  multiple = TRUE
+      checkboxGroupInput(inputId = "export_province_choice", label = "Select variables to show:", 
+                  choices = colnames(getData()$province)[colnames(getData()$province) != "name"]
       )
     }
   })
@@ -231,7 +241,7 @@ server <- function(input, output) {
     if(input$export_choice != "Province"){
       return(NULL)
     } else {
-      getData()$province    
+      getData()$province[, c("name", input$export_province_choice)]    
     }
   }, options = list(orderClasses = TRUE,pageLength = 10)
   )
@@ -241,7 +251,7 @@ server <- function(input, output) {
       return(NULL)
     } else {
       checkboxGroupInput(inputId = "export_country_choice", label = "Select variables to show:", 
-                         choices = colnames(getData()$country)
+                         choices = colnames(getData()$country)[colnames(getData()$country) != "Name"]
       )
     }
   })
@@ -250,11 +260,62 @@ server <- function(input, output) {
     if(input$export_choice != "Country"){
       return(NULL)
     }  else {
-      getData()$country    
+      getData()$country[, c("Name", input$export_country_choice)]    
     }
   }, options = list(orderClasses = TRUE,pageLength = 10)
   )
   
+  # Download buttons
+  output$export_data_button <- renderUI({
+    if(input$export_choice == "Country"){
+      downloadButton(outputId = "export_country", 
+                     label = "Download entire data table")
+        
+    } else {
+      downloadButton(outputId = "export_province", 
+                     label = "Download entire data table")
+    }
+  })
+  
+  output$export_data_button_view <- renderUI({
+    if(input$export_choice == "Country"){
+      downloadButton(outputId = "export_country_view", 
+                     label = "Download current selection")
+      
+    } else {
+      downloadButton(outputId = "export_province_view", 
+                     label = "Download current selection")
+    }
+  })
+  
+  # Export functions
+  output$export_country <- downloadHandler(
+    filename = "country_data.csv", 
+    content = function(file){
+      write.csv(getData()$country, file, row.names = FALSE)
+    }
+  )
+  
+  output$export_province <- downloadHandler(
+    filename = "province_data.csv", 
+    content = function(file){
+      write.csv(getData()$province, file, row.names = FALSE)
+    }
+  )
+  
+  output$export_country_view <- downloadHandler(
+    filename = "country_data_view.csv", 
+    content = function(file){
+      write.csv(getData()$country[, c("Name", input$export_country_choice)], file, row.names = FALSE)
+    }
+  )
+  
+  output$export_province_view <- downloadHandler(
+    filename = "province_data_view.csv", 
+    content = function(file){
+      write.csv(getData()$province[, c("name", input$export_province_choice)], file, row.names = FALSE)
+    }
+  )
   
   #################################################
   ### OWN STUFF
