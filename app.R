@@ -313,9 +313,11 @@ server <- function(input, output) {
       downloadButton(outputId = "export_country", 
                      label = "Download entire data table")
         
-    } else {
+    } else if(input$export_choice == "Province"){
       downloadButton(outputId = "export_province", 
                      label = "Download entire data table")
+    } else {
+      return(NULL)
     }
   })
   
@@ -324,15 +326,21 @@ server <- function(input, output) {
       downloadButton(outputId = "export_country_view", 
                      label = "Download current selection")
       
-    } else {
+    } else if(input$export_choice == "Province"){
       downloadButton(outputId = "export_province_view", 
                      label = "Download current selection")
+    } else {
+      return(NULL)
     }
   })
   
   # Export functions
   output$export_country <- downloadHandler(
-    filename = "country_data.csv", 
+    filename = function(){
+      meta_data <- getData()$meta
+      
+      paste(meta_data$save_game, meta_data$date, "country_data.csv", sep = "_")
+    },
     content = function(file){
       game_data <- getData()$country
       # Subsets continents
@@ -347,7 +355,11 @@ server <- function(input, output) {
   )
   
   output$export_province <- downloadHandler(
-    filename = "province_data.csv", 
+    filename = function(){
+      meta_data <- getData()$meta
+      
+      paste(meta_data$save_game, meta_data$date, "province_data.csv", sep = "_")
+    }, 
     content = function(file){
       write.csv(getData()$province, file, row.names = FALSE)
     }

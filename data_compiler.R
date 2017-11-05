@@ -97,7 +97,7 @@ country_information_compiler <- function(x){
   tag <- str_extract(x[1], "[A-Z]{3}")
   continent <- information_finder(x, "^\t\tcontinent=\\{")
   gov_rank <- information_finder(x, "government_rank")
-  development <- information_finder(x, "raw_development")
+  development <- information_finder(x, "^\t\tdevelopment")
   great_power <- information_finder(x, "great_power_score")
   cur_treasury <- information_finder(x, "treasury=")
   est_month_income <- information_finder(x, "estimated_monthly_income")
