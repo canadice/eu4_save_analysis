@@ -1,586 +1,697 @@
-Name;Tag
-Aachen;AAC
-Abenaki;ABE
-Achaea;ACH
-Adal;ADA
-Yemen;ADE
-Andalusia;ADU
-Aussa;AFA
-Afghanistan;AFG
-Ahmednagar;AHM
-Air;AIR
-Ajuuraan;AJU
-Aq Qoyunlu;AKK
-Albania;ALB
-Alençon;ALE
-Algiers;ALG
-Haasa;ALH
-Alodia;ALO
-Alsace;ALS
-Amago;AMA
-Armagnac;AMG
-Anhalt;ANH
-Annam;ANN
-Ansbach;ANS
-Ainu;ANU
-Apache;APA
-Aquileia;AQU
-Aragon;ARA
-Arabia;ARB
-Ardalan;ARD
-Arakan;ARK
-Armenia;ARM
-Arapaho;ARP
-Arawak;ARW
-Asakura;ASA
-Ashanti;ASH
-Assiniboine;ASI
-Assam;ASS
-Astrakhan;AST
-Athens;ATH
-Aceh;ATJ
-Augsburg;AUG
-Australia;AUS
-Auvergne;AUV
-Ava;AVA
-Avignon;AVI
-Aydin;AYD
-Ayutthaya;AYU
-Aztec;AZT
-Baden;BAD
-Bahmanis;BAH
-Baluchistan;BAL
-Banten;BAN
-Bar;BAR
-Bavaria;BAV
-Baroda;BDA
-Brunei;BEI
-Benin;BEN
-Berry;BER
-Baglana;BGA
-Bagelkhand;BGL
-Bharat;BHA
-Bohtan;BHT
-Bhutan;BHU
-Bijapur;BIJ
-Blackfoot;BLA
-Bali;BLI
-Blambangan;BLM
-Bundelkhand;BND
-Bengal;BNG
-Banjar;BNJ
-Bohemia;BOH
-Bonoman;BON
-Bosnia;BOS
-Bourbonnais;BOU
-Brandenburg;BRA
-Brabant;BRB
-Bremen;BRE
-Brittany;BRI
-Berar;BRR
-Buryatia;BRT
-Brunswick;BRU
-Brazil;BRZ
-Bashkiria;BSH
-Bastar;BST
-Semien;BTI
-Buton;BTN
-Bukhara;BUK
-Bulgaria;BUL
-Burgundy;BUR
-Byzantium;BYZ
-Carib;CAB
-Caddo;CAD
-UPCA;CAM
-Canada;CAN
-Castile;CAS
-Catalunya;CAT
-Calchaqui;CCQ
-Dali;CDL
-Corfu;CEP
-Ceylon;CEY
-Changsheng;CGS
-Champa;CHA
-Chu;CHC
-Chanda;CHD
-Cherokee;CHE
-Chagatai;CHG
-Chahar;CHH
-Chickasaw;CHI
-Champasak;CHK
-Chile;CHL
-Chimu;CHM
-Choctaw;CHO
-Champagne;CHP
-Chernigov;CHR
-Chukchi;CHU
-Chavchuveny;CHV
-Cheyenne;CHY
-Circassia;CIR
-Cajamarca;CJA
-Colla;CLA
-Colima;CLM
-Miao;CMI
-Rewa Kantha;CMP
-Candar;CND
-Chinook;CNK
-Connacht;CNN
-Cocomes;COC
-Colombia;COL
-Comanche;COM
-Corsica;COR
-Charca;CRA
-Cirebon;CRB
-Creek;CRE
-Crimea;CRI
-Cornwall;CRN
-Croatia;CRO
-Crete;CRT
-Shun;CSH
-Chosokabe;CSK
-Cusco;CSU
-Charrua;CUA
-Xi;CXI
-Chachapoya;CYA
-Yi;CYI
-Cyprus;CYP
-Zhou;CZH
-Dahomey;DAH
-Dai Viet;DAI
-Denmark;DAN
-Darfur;DAR
-Dauphine;DAU
-Deccan;DEC
-Dagbon;DGB
-Doughlat;DGL
-Dhundhar;DHU
-Delhi;DLH
-Demak;DMK
-Danzig;DNZ
-Date;DTE
-Dulkadir;DUL
-East Frisia;EFR
-Egypt;EGY
-England;ENG
-Epirus;EPI
-Eretna;ERE
-Ethiopia;ETH
-Etruria;ETR
-Theodoro;FEO
-Ferrara;FER
-Fez;FEZ
-Finland;FIN
-Flanders;FLA
-Foix;FOI
-Fox;FOX
-France;FRA
-Friesland;FRI
-Frankfurt;FRN
-Fulo;FUL
-Fezzan;FZA
-Galicia;GAL
-Gazikumukh;GAZ
-Great Britain;GBR
-Gondwana;GDW
-Gelre;GEL
-Genoa;GEN
-Georgia;GEO
-Germany;GER
-Djerid;GHD
-Garhwal;GHR
-Geledi;GLE
-Golkonda;GOC
-Golden Horde;GOL
-Gotland;GOT
-Granada;GRA
-Greece;GRE
-Garjat;GRJ
-Germiyan;GRM
-Guarani;GUA
-Guge;GUG
-Gujarat;GUJ
-Guyenne;GUY
-Gwalior;GWA
-Austria;HAB
-Hadoti;HAD
-Hainaut;HAI
-Hamburg;HAM
-Hannover;HAN
-Harar;HAR
-Haiti;HAT
-Hausa;HAU
-Haida;HDA
-Hejaz;HED
-Hesse;HES
-Hindustan;HIN
-Huyla;HJA
-Hojo;HJO
-Holy Roman Empire;HLR
-Kara Del;HMI
-Hobyo;HOB
-Khodynt;HOD
-Holland;HOL
-The Hansa;HSA
-Hsenwi;HSE
-Hosokawa;HSK
-Hatakeyama;HTK
-Huai;HUA
-Hungary;HUN
-Huron;HUR
-Ichma;ICM
-Ikeda;IKE
-Illiniwek;ILL
-Imereti;IME
-Imagawa;IMG
-Inca;INC
-Ireland;IRE
-Iroquois;IRO
-Iraq;IRQ
-Italy;ITA
-Itza;ITZ
-Malta;JAI
-Jalayirids;JAI
-Habsan;JAJ
-Jangladesh;JAN
-Japan;JAP
-Jaffna;JFN
-Jin;JIN
-Jenné;JNN
-Jaunpur;JNP
-Johor;JOH
-Jolof;JOL
-Jaisalmer;JSL
-Kachar;KAC
-Kaffa;KAF
-Kham;KAM
-Kano;KAN
-Karaman;KAR
-Yarkand;KAS
-Kathiawar;KAT
-Kazan;KAZ
-Kabylia;KBA
-Kanem Bornu;KBO
-Kaabu;KBU
-Kedah;KED
-Kangra;KGR
-Mongolia;KHA
-Khandesh;KHD
-Khiva;KHI
-Khmer;KHM
-Khorasan;KHO
-Kiche;KIC
-Kiev;KIE
-Kiowa;KIO
-Cleves;KLE
-Khalkha;KLK
-Keladi;KLN
-Kamchadals;KMC
-Koch;KMT
-Kong;KNG
-The Knights;KNI
-Kochin;KOC
-Jerusalem;KOJ
-Kokkand;KOK
-Cologne;KOL
-Kongo;KON
-Korea;KOR
-Krakow;KRA
-Korchin;KRC
-Carnatic;KRK
-Karelia;KRL
-Khoshuud;KSD
-Kashmir;KSH
-Katsina;KTS
-Kurland;KUR
-Kutai;KUT
-Kazakh;KZH
-Florence;LAN
-La Plata;LAP
-Saxe-Lauenburg;LAU
-Ladakh;LDK
-Lebanon;LEB
-Leinster;LEI
-Lenape;LEN
-Lanfang;LFA
-Liege;LIE
-Ligor;LIG
-Lithuania;LIT
-Livonian Order;LIV
-Lan Na;LNA
-Liang;LNG
-Lanao;LNO
-Loango;LOA
-León;LON
-Lorraine;LOR
-Louisiana;LOU
-Luang Prabang;LUA
-Lüneburg;LUN
-Luwu;LUW
-Luxembourg;LUX
-Lan Xang;LXA
-Malabar;MAB
-Madurai;MAD
-Maeda;MAE
-Magdeburg;MAG
-Mahican;MAH
-Mainz;MAI
-Majapahit;MAJ
-Makuria;MAK
-Mali;MAL
-Mamluks;MAM
-Mantua;MAN
-Marathas;MAR
-Marwar;MAW
-Maya;MAY
-Mazovia;MAZ
-Mombasa;MBA
-Muisca;MCA
-Manchu;MCH
-Mogadishu;MDI
-Medri Bahri;MED
-Meissen;MEI
-Mentese;MEN
-Mewar;MER
-Mewat;MEW
-Mexico;MEX
-Maguindanao;MGD
-Haixi;MHX
-Mikmaq;MIK
-Min;MIN
-Mixtec;MIX
-Majeerteen;MJE
-Jianzhou;MJZ
-Mecklenburg;MKL
-Makassar;MKS
-Manipur;MLB
-Malacca;MLC
-Malindi;MLI
-Milan;MLO
-Malwa;MLW
-Miami;MMI
-Ming;MNG
-Munster;MNS
-Modena;MOD
-Morea;MOE
-Moldavia;MOL
-Montenegro;MON
-Morocco;MOR
-Muscovy;MOS
-Mapuche;MPC
-Muan Phuang;MPH
-Marehan;MRE
-Mori;MRI
-Malaya;MSA
-Mossi;MSI
-Mataram;MTR
-Mughals;MUG
-Multan;MUL
-Münster;MUN
-Mong Yang;MYA
-Yeren;MYR
-Mysore;MYS
-Mzab;MZB
-Nagpur;NAG
-Navajo;NAH
-Najd;NAJ
-Naples;NAP
-Navarra;NAV
-Naxos;NAX
-Ndongo;NDO
-Netherlands;NED
-Nevers;NEV
-Nagaur;NGA
-Jharkhand;NGP
-Ning;NNG
-Nogai;NOG
-Northumberland;NOL
-Norway;NOR
-Novgorod;NOV
-Nepal;NPL
-Normandy;NRM
-Funj;NUB
-Nuremburg;NUM
-Nupe;NUP
-Nizhny Novgorod;NZH
-Oda;ODA
-Oudh;ODH
-Oirat;OIR
-Ojibwe;OJI
-Oldenburg;OLD
-Oman;OMA
-Orissa;ORI
-Orleans;ORL
-Osage;OSA
-Otomo;OTM
-Ottowa;OTT
-Ouchi;OUC
-Oyo;OYO
-The Palatinate;PAL
-The Papal State;PAP
-Parma;PAR
-Pattani;PAT
-Pawnee;PAW
-Pacajes;PCJ
-Pegu;PEG
-Pequot;PEQ
-Persia;PER
-Peru;PEU
-Pagarruyung;PGR
-Pima;PIM
-Pisa;PIS
-Palembang;PLB
-Commonwealth;PLC
-Polotsk;PLT
-Poland;POL
-Pomerania;POM
-Portugal;POR
-Potawatomi;POT
-Powhatan;POW
-Paraguay;PRG
-Perak;PRK
-Perm;PRM
-Provence;PRO
-Prussia;PRU
-Pasai;PSA
-Pskov;PSK
-Patiala;PTA
-Pate;PTE
-Potiguara;PTG
-Pueblo;PUE
-Punjab;PUN
-Qara Qoyunlu;QAR
-Qasim;QAS
-Qi;QIC
-Qin;QIN
-Qing;QNG
-Quito;QTO
-Quebec;QUE
-Ragusa;RAG
-Ramazan;RAM
-Riga;RIG
-Romania;RMN
-Rohilkhand;RMP
-Russia;RUS
-Ryazan;RYA
-Ryukyu;RYU
-Siak;SAK
-Salish;SAL
-Sardinia;SAR
-Savoy;SAV
-Saxony;SAX
-Shiba;SBA
-Scandinavia;SCA
-Scotland;SCO
-Sadiya;SDY
-Serbia;SER
-Sofala;SFA
-Shawnee;SHA
-Holstein;SHL
-Shammar;SHM
-Shoshone;SHO
-Sharjah;SHR
-Shu;SHU
-Uzbek;SHY
-Sibir;SIB
-Sicily;SIC
-Siena;SIE
-Silesia;SIL
-Sioux;SIO
-Salzburg;SLZ
-Sapmi;SMI
-Smolensk;SMO
-Shimazu;SMZ
-Sind;SND
-Segu;SOF
-Sokoto;SOK
-Songhai;SON
-Sus;SOS
-Spain;SPA
-Sardinia-Piedmont;SPI
-Saruhan;SRU
-Shirvan;SRV
-Shan;SST
-Styria;STY
-Sukhothai;SUK
-Sulu;SUL
-Sunda;SUN
-Susquehannock;SUS
-Sweden;SWE
-Switzerland;SWI
-Sarig Yogir;SYG
-Syria;SYR
-Tabarestan;TAB
-Tarascan;TAR
-Taungu;TAU
-Ternate;TER
-Teutonic Order;TEU
-Tafilalt;TFL
-Touggourt;TGT
-Thuringia;THU
-Tibet;TIB
-Tidore;TID
-Timurids;TIM
-Tirol;TIR
-Takeda;TKD
-Tokugawa;TKG
-Tlapanec;TLA
-Tlemcen;TLC
-Tlaxcala;TLX
-Timbuktu;TMB
-Tang;TNG
-Tonkin;TOK
-Totonac;TOT
-Toulouse;TOU
-Tupinamba;TPA
-Tupiniquim;TPQ
-Tripura;TPR
-Transylvania;TRA
-Trebizond;TRE
-Trier;TRI
-Tripoli;TRP
-Tirhut;TRT
-Tapuia;TUA
-Tunis;TUN
-Ottomans;TUR
-Tuscany;TUS
-Tver;TVE
-Tyrone;TYR
-Uesugi;UES
-Ruthenia;UKR
-Ulm;ULM
-Urbino;URB
-USA;USA
-Utrecht;UTR
-U-tsang;UTS
-Venice;VEN
-Vientiane;VIE
-Vijayanagar;VIJ
-Venad;VND
-Venezuela;VNZ
-Galicia–Volhynia;VOL
-Wallachia;WAL
-Warsangali;WAR
-Wurzburg;WBG
-Cree;WCR
-Westphalia;WES
-Wichita;WIC
-Wanka;WKA
-Wales;WLS
-Wurttemberg;WUR
-Wu;WUU
-Xiu;XIU
-Yan;YAN
-Yao;YAO
-Yaroslavl;YAR
-Yatenga;YAT
-Yamana;YMN
-York;YOR
-Andhra;YOR
-Yue;YUE
-Macina;ZAF
-Kilwa;ZAN
-Zapotec;ZAP
-Zaporozhie;ZAZ
-Mutapa;ZIM
-Zunghar;ZUN
-Zazzau;ZZZ
+Name;Tag;Region
+Rebels;REB;NA
+Pirates;PIR;NA
+Natives;NAT;NA
+Sweden;SWE;Scandinavia
+Denmark;DAN;Scandinavia
+Finland;FIN;Scandinavia
+Gotland;GOT;Scandinavia
+Norway;NOR;Scandinavia
+Holstein;SHL;Scandinavia
+Scandinavia;SCA;Scandinavia
+Estonia;EST;Scandinavia
+Livonia;LVA;Scandinavia
+Sapmi;SMI;Scandinavia
+Karelia;KRL;Scandinavia
+Iceland;ICE;Scandinavia
+Achaea;ACH;Balkans
+Albania;ALB;Balkans
+Athens;ATH;Balkans
+Bosnia;BOS;Balkans
+Bulgaria;BUL;Balkans
+Byzantium;BYZ;Balkans
+Corfu;CEP;Balkans
+Croatia;CRO;Balkans
+Crete;CRT;Balkans
+Cyprus;CYP;Balkans
+Epirus;EPI;Balkans
+Greece;GRE;Balkans
+The Knights;KNI;Asia Minor
+Morea;MOE;Balkans
+Moldavia;MOL;Balkans
+Montenegro;MON;Balkans
+Naxos;NAX;Balkans
+Ragusa;RAG;Balkans
+Romania;RMN;Balkans
+Serbia;SER;Balkans
+Transylvania;TRA;Balkans
+Wallachia;WAL;Balkans
+Hungary;HUN;Balkans
+Nitra;SLO;Balkans
+Ottomans;TUR;Asia Minor
+Clanricarde;CNN;British Isles
+Cornwall;CRN;British Isles
+England;ENG;British Isles
+Leinster;LEI;British Isles
+Ireland;IRE;British Isles
+Thomond;MNS;British Isles
+Scotland;SCO;British Isles
+Tyrone;TYR;British Isles
+Wales;WLS;British Isles
+Northumberland;NOL;British Isles
+Great Britain;GBR;British Isles
+Meath;MTH;British Isles
+Ulster;ULS;British Isles
+Desmond;DMS;British Isles
+Sligo;SLN;British Isles
+Kildare;KID;British Isles
+Gaeldom;HSC;British Isles
+Brazil;BRZ;Colonies
+Canada;CAN;Colonies
+Chile;CHL;Colonies
+Colombia;COL;Colonies
+Haiti;HAT;Colonies
+La Plata;LAP;Colonies
+Louisiana;LOU;Colonies
+Mexico;MEX;Colonies
+Peru;PEU;Colonies
+Paraguay;PRG;Colonies
+Quebec;QUE;Colonies
+United Central America;CAM;Colonies
+United States;USA;Colonies
+Venezuela;VNZ;Colonies
+Australia;AUS;Colonies
+Danzig;DNZ;Eastern Europe
+Krakow;KRA;Eastern Europe
+Lithuania;LIT;Eastern Europe
+Livonian Order;LIV;Eastern Europe
+Mazovia;MAZ;Eastern Europe
+Poland;POL;Eastern Europe
+Prussia;PRU;Eastern Europe
+Kurland;KUR;Eastern Europe
+Riga;RIG;Eastern Europe
+Teutonic Order;TEU;Eastern Europe
+Commonwealth;PLC;Eastern Europe
+Galicia–Volhynia;VOL;Eastern Europe
+Kiev;KIE;Eastern Europe
+Chernigov;CHR;Eastern Europe
+Odoyev;OKA;Russia
+Alençon;ALE;France
+Alsace;ALS;Germany
+Armagnac;AMG;France
+Auvergne;AUV;France
+Avignon;AVI;France
+Bourbonnais;BOU;France
+Brittany;BRI;France
+Burgundy;BUR;France
+Champagne;CHP;France
+Corsica;COR;Italy
+Dauphine;DAU;France
+Foix;FOI;France
+France;FRA;France
+Gascony;GUY;France
+Nevers;NEV;France
+Normandy;NRM;France
+Orleans;ORL;France
+Picardy;PIC;France
+Provence;PRO;France
+Sardinia-Piedmont;SPI;Italy
+Toulouse;TOU;France
+Berry;BER;France
+Aachen;AAC;Germany
+Anhalt;ANH;Germany
+Ansbach;ANS;Germany
+Augsburg;AUG;Germany
+Baden;BAD;Germany
+Bavaria;BAV;Germany
+Bohemia;BOH;Eastern Europe
+Brandenburg;BRA;Germany
+Bremen;BRE;Germany
+Brunswick;BRU;Germany
+East Frisia;EFR;Germany
+Frankfurt;FRN;Germany
+Germany;GER;Germany
+Austria;HAB;Germany
+Hamburg;HAM;Germany
+Hannover;HAN;Germany
+Hesse;HES;Germany
+Holy Roman Empire;HLR;Germany
+Cleves;KLE;Germany
+Cologne;KOL;Germany
+Saxe-Lauenburg;LAU;Germany
+Lorraine;LOR;France
+Lüneburg;LUN;Germany
+Magdeburg;MAG;Germany
+Mainz;MAI;Germany
+Meissen;MEI;Germany
+Mecklenburg;MKL;Germany
+Münster;MUN;Germany
+Moravia;MVA;Eastern Europe
+Oldenburg;OLD;Germany
+The Palatinate;PAL;Germany
+Pomerania;POM;Germany
+Saxony;SAX;Germany
+Silesia;SIL;Eastern Europe
+Salzburg;SLZ;Germany
+Styria;STY;Germany
+Switzerland;SWI;Germany
+Thuringia;THU;Germany
+Tirol;TIR;Germany
+Trier;TRI;Germany
+Ulm;ULM;Germany
+Wurzburg;WBG;Germany
+Westphalia;WES;Germany
+Wurttemberg;WUR;Germany
+Nuremberg;NUM;Germany
+Memmingen;MEM;Germany
+Verden;VER;Germany
+Nassau;NSA;Germany
+Ravensburg;RVA;Germany
+Dithmarschen;DTT;Germany
+Aragon;ARA;Iberia
+Castile;CAS;Iberia
+Catalonia;CAT;Iberia
+Granada;GRA;Iberia
+Navarra;NAV;Iberia
+Portugal;POR;Iberia
+Spain;SPA;Iberia
+Galicia;GAL;Iberia
+León;LON;Iberia
+Andalusia;ADU;Iberia
+Aquileia;AQU;Italy
+Etruria;ETR;Italy
+Ferrara;FER;Italy
+Genoa;GEN;Italy
+Italy;ITA;Italy
+Mantua;MAN;Italy
+Milan;MLO;Italy
+Modena;MOD;Italy
+Naples;NAP;Italy
+The Papal State;PAP;Italy
+Parma;PAR;Italy
+Pisa;PIS;Italy
+Sardinia;SAR;Italy
+Savoy;SAV;Italy
+Sicily;SIC;Italy
+Siena;SIE;Italy
+Tuscany;TUS;Italy
+Urbino;URB;Italy
+Venice;VEN;Italy
+Montferrat;MFA;Italy
+Lucca;LUC;Italy
+Florence;LAN;Italy
+Malta;JAI;Italy
+Brabant;BRB;Low Countries
+Flanders;FLA;Low Countries
+Friesland;FRI;Low Countries
+Gelre;GEL;Low Countries
+Hainaut;HAI;Low Countries
+Holland;HOL;Low Countries
+Liege;LIE;Low Countries
+Luxembourg;LUX;Low Countries
+Netherlands;NED;Low Countries
+Utrecht;UTR;Low Countries
+Armenia;ARM;Caucasia
+Astrakhan;AST;Russia
+Crimea;CRI;Russia
+Georgia;GEO;Caucasia
+Kazan;KAZ;Russia
+Muscovy;MOS;Russia
+Novgorod;NOV;Russia
+Pskov;PSK;Russia
+Qasim;QAS;Russia
+Russia;RUS;Russia
+Ryazan;RYA;Russia
+Tver;TVE;Russia
+Ruthenia;UKR;Russia
+Yaroslavl;YAR;Russia
+Zaporozhie;ZAZ;Russia
+Nogai;NOG;Central Asia
+Sibir;SIB;Russia
+Polotsk;PLT;Russia
+Perm;PRM;Russia
+Theodoro;FEO;Russia
+Bashkiria;BSH;Russia
+Beloozero;BLO;Russia
+Rostov;RSO;Russia
+Great Horde;GOL;Russia
+Golden Horde;GLH;Russia
+Aden;ADE;Arabia
+Haasa;ALH;Arabia
+Anizah;ANZ;Arabia
+Arabia;ARB;Arabia
+Ardalan;ARD;Arabia
+Soran;BHT;Arabia
+Dawasir;DAW;Arabia
+Eretna;ERE;Arabia
+Fadl;FAD;Arabia
+Germiyan;GRM;Arabia
+Hadramut;HDR;Arabia
+Hejaz;HED;Arabia
+Lebanon;LEB;Arabia
+Makuria;MAK;Arabia
+Medina;MDA;Arabia
+Mikhlaf;MFL;Arabia
+Mahra;MHR;Arabia
+Najd;NAJ;Arabia
+Najran;NJR;Arabia
+Oman;OMA;Arabia
+Rassids;RAS;Arabia
+Shammar;SHM;Arabia
+Sharjah;SHR;Arabia
+Shirvan;SRV;Arabia
+Yas;YAS;Arabia
+Yemen;YEM;Arabia
+Hisn Kayfa;HSN;Arabia
+Bitlis;BTL;Arabia
+Aq Qoyunlu;AKK;Asia Minor
+Aydin;AYD;Asia Minor
+Candar;CND;Asia Minor
+Dulkadir;DUL;Asia Minor
+Iraq;IRQ;Asia Minor
+Karaman;KAR;Asia Minor
+Syria;SYR;Middle East
+Trebizond;TRE;Asia Minor
+Saruhan;SRU;Asia Minor
+Mentese;MEN;Asia Minor
+Ramazan;RAM;Asia Minor
+Avaria;AVR;Asia Minor
+Kharabakh;MLK;Asia Minor
+Samtskhe;SME;Asia Minor
+Ardabil;ARL;Asia Minor
+Mushasha;MSY;Asia Minor
+Rûm;RUM;Asia Minor
+Algiers;ALG;Maghreb
+Fez;FEZ;Maghreb
+Mamluks;MAM;Middle East
+Morocco;MOR;Maghreb
+Tripoli;TRP;Maghreb
+Tunis;TUN;Maghreb
+Egypt;EGY;Middle East
+Kabylia;KBA;Maghreb
+Tafilalt;TFL;Maghreb
+Sus;SOS;Maghreb
+Tlemcen;TLC;Maghreb
+Touggourt;TGT;Maghreb
+Djerid;GHD;Maghreb
+Fezzan;FZA;Maghreb
+Mzab;MZB;Maghreb
+Kazakh;KZH;Central Asia
+Khiva;KHI;Central Asia
+Uzbek;SHY;Central Asia
+Kokkand;KOK;Central Asia
+Bukhara;BUK;Central Asia
+Afghanistan;AFG;Persia
+Khorasan;KHO;Persia
+Persia;PER;Persia
+Qara Qoyunlu;QAR;Persia
+Timurids;TIM;Persia
+Transoxiana;TRS;Persia
+Gilan;KRY;Persia
+Circassia;CIR;Persia
+Gazikumukh;GAZ;Persia
+Imereti;IME;Persia
+Mazandaran;TAB;Persia
+Hormuz;ORM;Persia
+Luristan;LRI;Persia
+Sistan;SIS;Persia
+Biapas;BPI;Persia
+Fars;FRS;Persia
+Kerman;KRM;Persia
+Yazd;YZD;Persia
+Isfahan;ISF;Persia
+Tabriz;TBR;Persia
+Basra;BSR;Persia
+Maregheh;MGR;Persia
+Ajam;QOM;Persia
+Aztec;AZT;Central America
+Cherokee;CHE;North America
+Chimu;CHM;South America
+Creek;CRE;North America
+Huron;HUR;North America
+Inca;INC;South America
+Iroquois;IRO;North America
+Maya;MAY;Central America
+Shawnee;SHA;North America
+Zapotec;ZAP;Central America
+Ashanti;ASH;West Africa
+Benin;BEN;West Africa
+Ethiopia;ETH;East Africa
+Kongo;KON;Kongo
+Mali;MAL;West Africa
+Funj;NUB;West Africa
+Songhai;SON;West Africa
+Kilwa;ZAN;East Africa
+Mutapa;ZIM;East Africa
+Adal;ADA;East Africa
+Hausa;HAU;West Africa
+Kanem Bornu;KBO;West Africa
+Loango;LOA;Kongo
+Oyo;OYO;West Africa
+Segu;SOF;West Africa
+Sokoto;SOK;West Africa
+Jolof;JOL;West Africa
+Sofala;SFA;East Africa
+Mombasa;MBA;East Africa
+Malindi;MLI;East Africa
+Ajuuraan;AJU;East Africa
+Mogadishu;MDI;East Africa
+Ennarea;ENA;East Africa
+Aussa;AFA;East Africa
+Alodia;ALO;East Africa
+Darfur;DAR;East Africa
+Geledi;GLE;East Africa
+Harar;HAR;East Africa
+Hobyo;HOB;East Africa
+Kaffa;KAF;East Africa
+Medri Bahri;MED;East Africa
+Majeerteen;MJE;East Africa
+Marehan;MRE;East Africa
+Pate;PTE;East Africa
+Warsangali;WAR;East Africa
+Semien;BTI;East Africa
+Beja;BEJ;East Africa
+Jima;JIM;West Africa
+Welayta;WLY;East Africa
+Damot;DAM;East Africa
+Hadiya;HDY;East Africa
+Shewa;SOA;East Africa
+Janjiro;JJI;East Africa
+Dongola;ABB;East Africa
+Tyo;TYO;Kongo
+Soyo;SYO;Kongo
+Kasanje;KSJ;Kongo
+Luba;LUB;Central Africa
+Lunda;LND;Kongo
+Chokwe;CKW;Central Africa
+Kikondja;KIK;Central Africa
+Kazembe;KZB;Central Africa
+Yaka;YAK;Kongo
+Kalundwe;KLD;Central Africa
+Kuba;KUB;Central Africa
+Rwanda;RWA;Central Africa
+Burundi;BUU;Central Africa
+Buganda;BUG;Central Africa
+Nkore;NKO;Central Africa
+Karagwe;KRW;Central Africa
+Bunyoro;BNY;Central Africa
+Busoga;BSG;Central Africa
+Buha;UBH;Central Africa
+Maravi;MRA;East Africa
+Lundu;LDU;East Africa
+Tumbuka;TBK;East Africa
+Makua;MKU;East Africa
+Butua;RZW;East Africa
+Imerina;MIR;Madagascar
+Sakalava;SKA;Madagascar
+Betsimisaraka;BTS;Madagascar
+Mahafaly;MFY;Madagascar
+Antemoro;ANT;Madagascar
+Annam;ANN;Indochina
+Arakan;ARK;Indochina
+Aceh;ATJ;Indonesia
+Ayutthaya;AYU;Indochina
+Bali;BLI;Indonesia
+Banten;BAN;Indonesia
+Brunei;BEI;Indonesia
+Champa;CHA;Indonesia
+Chagatai;CHG;Mongolia
+Champasak;CHK;Indochina
+Dai Viet;DAI;Indochina
+Japan;JAP;Far East
+Amago;AMA;Far East
+Asakura;ASA;Far East
+Chosokabe;CSK;Far East
+Date;DTE;Far East
+Hojo;HJO;Far East
+Hosokawa;HSK;Far East
+Hatakeyama;HTK;Far East
+Ikeda;IKE;Far East
+Imagawa;IMG;Far East
+Maeda;MAE;Far East
+Mori;MRI;Far East
+Oda;ODA;Far East
+Otomo;OTM;Far East
+Ouchi;OUC;Far East
+Shiba;SBA;Far East
+Shimazu;SMZ;Far East
+Takeda;TKD;Far East
+Tokugawa;TKG;Far East
+Uesugi;UES;Far East
+Yamana;YMN;Far East
+Nanbu;RFR;Far East
+Ashikaga;ASK;Far East
+Ainu;ANU;Far East
+Akamatsu;AKM;Far East
+Ando;AKT;Far East
+Chiba;CBA;Far East
+Isshiki;ISK;Far East
+Ito;ITO;Far East
+Kikuchi;KKC;Far East
+Kono;KNO;Far East
+Ogasawara;OGS;Far East
+Shoni;SHN;Far East
+Satake;STK;Far East
+Toki;TKI;Far East
+Utsunomiya;UTN;Far East
+Tsutsui;TTI;Far East
+Mongolia;KHA;Mongolia
+Khmer;KHM;Indochina
+Korea;KOR;Far East
+Lan Na;LNA;Indochina
+Luang Prabang;LUA;Indochina
+Lan Xang;LXA;Indochina
+Majapahit;MAJ;Indonesia
+Manchu;MCH;Manchuria
+Makassar;MKS;Indonesia
+Malacca;MLC;Indonesia
+Ming;MNG;China
+Mataram;MTR;Indonesia
+Oirat;OIR;Mongolia
+Pattani;PAT;Indonesia
+Pegu;PEG;Indochina
+Qing;QNG;Manchuria
+Ryukyu;RYU;Far East
+Shan;SST;Indochina
+Sukhothai;SUK;Indochina
+Sulu;SUL;Indonesia
+Taungu;TAU;Indochina
+Tibet;TIB;Tibet
+Tonkin;TOK;Indochina
+Vientiane;VIE;Indochina
+Zhou;CZH;China
+Shun;CSH;China
+Xi;CXI;China
+Yuan;YUA;Mongolia
+Yeren;MYR;Manchuria
+Haixi;MHX;Manchuria
+Jianzhou;MJZ;Manchuria
+Korchin;KRC;Mongolia
+Khalkha;KLK;Mongolia
+Kara Del;HMI;Mongolia
+Zunghar;ZUN;Mongolia
+Yarkand;KAS;Central Asia
+Chahar;CHH;Mongolia
+Khoshuud;KSD;Tibet
+Sarig Yogir;SYG;Tibet
+U-tsang;UTS;Tibet
+Kham;KAM;Tibet
+Guge;GUG;Tibet
+Dali;CDL;China
+Yi;CYI;China
+Miao;CMI;China
+Min;MIN;China
+Yue;YUE;China
+Shu;SHU;China
+Ning;NNG;China
+Chu;CHC;China
+Tang;TNG;China
+Wu;WUU;China
+Qi;QIC;China
+Yan;YAN;China
+Jin;JIN;China
+Liang;LNG;China
+Qin;QIN;China
+Huai;HUA;China
+Changsheng;CGS;Indochina
+Baluchistan;BAL;Persia
+Bengal;BNG;India
+Bijapur;BIJ;India
+Bahmanis;BAH;India
+Delhi;DLH;India
+Golkonda;GOC;India
+Deccan;DEC;India
+Marathas;MAR;India
+Mughals;MUG;India
+Mysore;MYS;India
+Vijayanagar;VIJ;India
+Ahmednagar;AHM;India
+Assam;ASS;India
+Gujarat;GUJ;India
+Jaunpur;JNP;India
+Madurai;MAD;India
+Malwa;MLW;India
+Marwar;MAW;India
+Mewar;MER;India
+Multan;MUL;India
+Nagpur;NAG;India
+Nepal;NPL;India
+Orissa;ORI;India
+Punjab;PUN;India
+Sind;SND;India
+Berar;BRR;India
+Jangladesh;JAN;India
+Carnatic;KRK;India
+Gondwana;GDW;India
+Garjat;GRJ;India
+Gwalior;GWA;India
+Dhundhar;DHU;India
+Kashmir;KSH;India
+Keladi;KLN;India
+Khandesh;KHD;India
+Oudh;ODH;India
+Venad;VND;India
+Malabar;MAB;India
+Mewat;MEW;India
+Baroda;BDA;India
+Bastar;BST;India
+Bhutan;BHU;Tibet
+Bundelkhand;BND;India
+Ceylon;CEY;India
+Jaisalmer;JSL;India
+Kachar;KAC;Indochina
+Koch;KMT;India
+Kangra;KGR;India
+Kathiawar;KAT;India
+Kochin;KOC;India
+Manipur;MLB;Indochina
+Hadoti;HAD;India
+Nagaur;NGA;India
+Rohilkhand;RMP;India
+Ladakh;LDK;India
+Bagelkhand;BGL;India
+Jaffna;JFN;India
+Patiala;PTA;India
+Garhwal;GHR;India
+Chanda;CHD;India
+Jharkhand;NGP;India
+Habsan;JAJ;India
+Tirhut;TRT;India
+Rewa Kantha;CMP;India
+Baglana;BGA;India
+Tripura;TPR;Indochina
+Sadiya;SDY;India
+Bharat;BHA;India
+Andhra;YOR;India
+Maldives;DGL;India
+Bar;BAR;France
+Lübeck;HSA;Eastern Europe
+Smolensk;SMO;Russia
+Nizhny Novgorod;NZH;Russia
+Jerusalem;KOJ;Middle East
+Malaya;MSA;Indonesia
+Hindustan;HIN;India
+Abenaki;ABE;North America
+Apache;APA;North America
+Assiniboine;ASI;North America
+Blackfoot;BLA;North America
+Caddo;CAD;North America
+Chickasaw;CHI;North America
+Choctaw;CHO;North America
+Cheyenne;CHY;North America
+Comanche;COM;North America
+Fox;FOX;North America
+Illiniwek;ILL;North America
+Lenape;LEN;North America
+Mahican;MAH;North America
+Mikmaq;MIK;North America
+Miami;MMI;North America
+Navajo;NAH;North America
+Ojibwe;OJI;North America
+Osage;OSA;North America
+Ottawa;OTT;North America
+Pawnee;PAW;North America
+Pequot;PEQ;North America
+Pima;PIM;North America
+Potawatomi;POT;North America
+Powhatan;POW;North America
+Pueblo;PUE;North America
+Shoshone;SHO;North America
+Sioux;SIO;North America
+Susquehannock;SUS;North America
+Cree;WCR;North America
+Air;AIR;West Africa
+Bonoman;BON;West Africa
+Dahomey;DAH;West Africa
+Dagbon;DGB;West Africa
+Fulo;FUL;West Africa
+Jenné;JNN;West Africa
+Kano;KAN;West Africa
+Kaabu;KBU;West Africa
+Kong;KNG;West Africa
+Katsina;KTS;West Africa
+Mossi;MSI;West Africa
+Nupe;NUP;West Africa
+Timbuktu;TMB;West Africa
+Yao;YAO;West Africa
+Yatenga;YAT;West Africa
+Macina;ZAF;West Africa
+Zazzau;ZZZ;West Africa
+Ndongo;NDO;Kongo
+Ava;AVA;Indochina
+Hsenwi;HSE;Indochina
+Johor;JOH;Indonesia
+Kedah;KED;Indonesia
+Ligor;LIG;Indonesia
+Muan Phuang;MPH;Indochina
+Mong Yang;MYA;Indochina
+Perak;PRK;Indonesia
+Chukchi;CHU;Siberia
+Khodynt;HOD;Siberia
+Chavchuveny;CHV;Siberia
+Kamchadals;KMC;Siberia
+Buryatia;BRT;Siberia
+Arapaho;ARP;North America
+Colima;CLM;Central America
+Chinook;CNK;North America
+Cocomes;COC;Central America
+Haida;HDA;North America
+Itza;ITZ;Central America
+Kiche;KIC;Central America
+Kiowa;KIO;North America
+Mixtec;MIX;Central America
+Salish;SAL;North America
+Tarascan;TAR;Central America
+Tlapanec;TLA;Central America
+Tlaxcala;TLX;Central America
+Totonac;TOT;Central America
+Wichita;WIC;North America
+Xiu;XIU;Central America
+Blambangan;BLM;Indonesia
+Buton;BTN;Indonesia
+Cirebon;CRB;Indonesia
+Demak;DMK;Indonesia
+Pagarruyung;PGR;Indonesia
+Palembang;PLB;Indonesia
+Pasai;PSA;Indonesia
+Siak;SAK;Indonesia
+Sunda;SUN;Indonesia
+Kutai;KUT;Indonesia
+Banjar;BNJ;Indonesia
+Lanfang;LFA;Indonesia
+Lanao;LNO;Indonesia
+Luwu;LUW;Indonesia
+Maguindanao;MGD;Indonesia
+Ternate;TER;Indonesia
+Tidore;TID;Indonesia
+Cusco;CSU;South America
+Calchaqui;CCQ;South America
+Mapuche;MPC;South America
+Muisca;MCA;South America
+Quito;QTO;South America
+Cajamarca;CJA;South America
+Huyla;HJA;South America
+Potiguara;PTG;South America
+Tupiniquim;TPQ;South America
+Tupinamba;TPA;South America
+Tapuia;TUA;South America
+Guarani;GUA;South America
+Charrua;CUA;South America
+Wanka;WKA;South America
+Chachapoya;CYA;South America
+Colla;CLA;South America
+Charca;CRA;South America
+Pacajes;PCJ;South America
+Arawak;ARW;South America
+Carib;CAB;South America
+Ichma;ICM;South America
