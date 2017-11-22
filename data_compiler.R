@@ -43,6 +43,7 @@ province_information_scraper <- function(list_vector){
   
   information <- list_vector[information_indices]  
   
+  # Just takes the data that is current, removes the history information that exist in a province
   information_indices <- str_detect(information, pattern = "^\t\t[a-z]")
   
   information <- information[information_indices]
@@ -53,8 +54,13 @@ province_information_scraper <- function(list_vector){
   
   var_names <- clean_information_matrix[1,]
   
-  if(any(duplicated(var_names))){
-    var_names[duplicated(var_names)] <- paste(var_names[duplicated(var_names)], 1:sum(duplicated(var_names)), sep = "")  
+  # Checks duplicates
+  if(any(table(var_names)>1)){
+    duplicates <- table(var_names)[which(table(var_names)>1)]
+    
+    for(name in names(duplicates)){
+      var_names[var_names == name] <- paste(var_names[var_names == name], 1:duplicates[names(duplicates) == name], sep = "_") 
+    }
   }
   
   clean_information_data <- as.data.frame(t(data.frame(values = clean_information_matrix[2,], row.names = var_names)), stringsAsFactors = FALSE)
@@ -67,16 +73,26 @@ province_information_scraper <- function(list_vector){
 }
 
 meta_information_scraper <- function(vector){
+  # Searches the vector of meta data for the pieces of information. 
+  # Does not look at multiple lines of information linked to {}.
   information_indices <- str_detect(vector, pattern = "=") & !str_detect(vector, pattern = "[{}]")
   
   information <- vector[information_indices]  
   
+  # Cleans the tab formats from the information
   clean_information <- str_replace_all(information, pattern = "[\t\"]", replacement = "")
   
-  # Removes flags
-  clean_information <- clean_information[!(str_detect(clean_information, "[0-9]{4}\\.[0-9]{1,2}\\.[0-9]") & !str_detect(clean_information, pattern = "date"))]
+  # Removes flags by identifying dates in the cells, without removing the vital DATE information
+  clean_information <- clean_information[!(str_detect(clean_information, "[0-9]{4}\\.[0-9]{1,2}\\.[0-9]") & 
+                                             !str_detect(clean_information, pattern = "date"))]
   
-  clean_information_matrix <- matrix(unlist(str_split(string = clean_information, pattern = "=")), ncol = length(clean_information), byrow = FALSE)
+  # Transforms the vector to a matrix of the same information where the values are in one row and the "name" in the other
+  clean_information_matrix <- matrix(unlist(str_split(string = clean_information, pattern = "=")), 
+                                     ncol = length(clean_information), 
+                                     byrow = FALSE)
+  
+  # Removes the new (for 1.23) comparison stats
+  clean_information_matrix <- clean_information_matrix[,!(clean_information_matrix[1,] %in% c("value", "id", "comparison", "localization", "key", "selector", "sample_count"))]
   
   var_names <- clean_information_matrix[1,]
   
@@ -94,23 +110,44 @@ country_information_compiler <- function(x){
   require(stringr, quietly = TRUE)
   require(dplyr, quietly = TRUE)
   
+  # Identifies lists of information and subsets (removes) them
+  a <- which(str_detect(x, pattern = "[A-Z]*=\\{"))[-1]
+  b <- which(str_detect(x, pattern = "\\}"))[-length(a)]
+  
+  lists <- unlist(apply(X = cbind(a,b), MARGIN = 1, FUN = function(x){x[1]:x[2]}))
+  
+  information <- x[-c(1,lists)]
+  
   tag <- str_extract(x[1], "[A-Z]{3}")
-  continent <- information_finder(x, "^\t\tcontinent=\\{")
-  gov_rank <- information_finder(x, "government_rank")
-  development <- information_finder(x, "^\t\tdevelopment")
-  great_power <- information_finder(x, "great_power_score")
-  cur_treasury <- information_finder(x, "treasury=")
-  est_month_income <- information_finder(x, "estimated_monthly_income")
-  mil_strength <- information_finder(x, "military_strength=")
-  manpower <- information_finder(x, "max_manpower=")
-  cur_army_size <- information_finder(x, "num_of_regulars")
-  religion <- information_finder(x, "^\t\treligion=")
-  capital <- as.numeric(information_finder(x, "^\t\tcapital="))
   
-  data <- cbind(tag, continent, gov_rank, development, great_power, cur_treasury, 
-                est_month_income, mil_strength, manpower, cur_army_size, religion, capital)
+  # Cleans the tab formats from the information
+  clean_information <- str_replace_all(information, pattern = "[\t\"]", replacement = "")
   
-  return(data)
+  # Transforms the vector to a matrix of the same information where the values are in one row and the "name" in the other
+  clean_information_matrix <- matrix(unlist(str_split(string = clean_information, pattern = "=")), 
+                                     ncol = length(clean_information), 
+                                     byrow = FALSE)
+  
+  var_names <- clean_information_matrix[1,]
+  
+  # Checks duplicates
+  if(any(table(var_names)>1)){
+    duplicates <- table(var_names)[which(table(var_names)>1)]
+    
+    for(name in names(duplicates)){
+      var_names[var_names == name] <- paste(var_names[var_names == name], 1:duplicates[names(duplicates) == name], sep = "_") 
+    }
+  }
+  
+  clean_information_data <- as.data.frame(t(data.frame(values = clean_information_matrix[2,], row.names = var_names)), stringsAsFactors = FALSE)
+  
+  clean_information_data <- cbind(tag, clean_information_data, stringsAsFactors = FALSE)
+  
+  num_indices <- sapply(clean_information_data, FUN = function(x){!is.na(suppressWarnings(as.numeric(x)))})
+  
+  clean_information_data[,num_indices] <- sapply(clean_information_data[,num_indices], FUN = as.numeric)
+  
+  return(clean_information_data)
 }
 
 province_information_compiler <- function(x){

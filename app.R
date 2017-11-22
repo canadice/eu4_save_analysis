@@ -141,11 +141,11 @@ server <- function(input, output) {
   getData <- reactive({
     
     if (is.null(input$data)){
-      # save <- readLines(con = "C:/Users/Canadice/Documents/Paradox Interactive/Europa Universalis IV/save games/MP_RotR_latest.eu4", encoding = "ANSI", warn = FALSE)
+      # save <- readLines(con = "C:/Users/Canadice/Documents/Paradox Interactive/Europa Universalis IV/save games/mp_Kongo1475_01_09.eu4", encoding = "ANSI", warn = FALSE)
       # game_data <- save_processing(save)
-      # save(game_data, file = "latest_rotr.RData")
-      
-      load("latest_rotr.RData")
+      # save(game_data, file = "latest_Europe_domination.RData")
+      # 
+      load("latest_Europe_domination.RData")
     } else {
       inFile <- input$data$datapath
       

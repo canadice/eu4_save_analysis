@@ -9,12 +9,18 @@ save_processing <- function(save){
   ### Subsetting
   ##########################################################################
   
+  ############################
+  ### META
+  ############################
   ### Starts the splitting for meta-data
-  # The first part of data existing in the save is trade, meta is above
+  # The first part of data existing in the save is trade, meta-data is located above
   end <- which(str_detect(save, pattern = "^trade"))[1]
   
   meta <- save[1:(end - 1)]
   
+  ############################
+  ### Country
+  ############################
   ### Splits the save file into the nations parts, starting at the first nation
   ### Last list object contains the last nation information + all the rest of the save...
   # Detects where to start looking for country data
@@ -24,7 +30,8 @@ save_processing <- function(save){
   # As the game progresses, } without any tabs are inserted resulting in the following 
   # solution to make the last list-object takes the whole rest of the save to the end. 
   # Subsets just the country data, might be unecessary.
-  country_data <- save[start_country:length(save)]
+  # 1.23 added active advisors to the save which screws with finding positions of nations' tags
+  country_data <- save[start_country:(which(str_detect(save, pattern = "active_advisors=\\{"))-1)]
   
   # Same as above with provinces
   starts <- which(str_detect(country_data, pattern = "^\t[A-Z]{3}=\\{"))
@@ -33,6 +40,9 @@ save_processing <- function(save){
   indices <- do.call(list, mapply(seq, starts, ends))
   country_data_split <- lapply(indices, FUN = function(x){country_data[x]})
   
+  ############################
+  ### Province
+  ############################
   ### Splits the save file into the province parts, starting at the first province
   ### Last list object contains the last province information + all the rest of the save...
   # Detects where to start the individual province data
@@ -46,14 +56,24 @@ save_processing <- function(save){
   indices <- do.call(list, mapply(seq, starts_provinces, ends_provinces))
   province_data_split <- lapply(indices, FUN = function(x){save[x]})
   
+  ############################
+  ### Cleaning
+  ############################
   # Removes original save and indices to save at least some working space
-  rm(list = c("ends", "starts", "starts_provinces", "ends_provinces", "start_country", "indices", "save"))
+  rm(list = c("ends", "end", "starts", "starts_provinces", "ends_provinces", "start_country", "indices", "save"))
   
   ##########################################################################
   ### Structuring & scraping
   ##########################################################################
-  meta_data <- meta_information_scraper(meta)
   
+  ############################
+  ### Meta data
+  ############################  
+  meta_data <- meta_information_scraper(vector = meta)
+  
+  ############################
+  ### Provinces data
+  ############################  
   # Compiles the province data to a list, parallel processing to speed the list up
   cl <- makeCluster(getOption("cl.cores", 4))
   clusterExport(cl, varlist = c("information_finder", "province_information_scraper"))
@@ -65,6 +85,9 @@ save_processing <- function(save){
   province_data <- data %>% 
     Reduce(function(dtf1,dtf2) suppressWarnings(bind_rows(dtf1,dtf2)), .)
   
+  ###############
+  ### Structure
+  ###############
   # Finds the column index for sorting
   buildings <- which(colnames(province_data) %in% c("marketplace", "workshop", "temple", "barracks", "shipyard", "fort_15th",
                                                    "courthouse", "dock", "regimental_camp", "fort_16th",
@@ -87,14 +110,22 @@ save_processing <- function(save){
   
   province_data <- province_data[,c(ordering_index, (1:ncol(province_data))[-ordering_index])]
   
+  ############################
+  ### Country data
+  ############################ 
   # Compiles the country data to a list
-  data <- lapply(country_data_split, FUN = country_information_compiler)
+  cl <- makeCluster(getOption("cl.cores", 4))
+  clusterExport(cl, varlist = c("information_finder"))
+  
+  data <- parLapply(cl = cl, X = country_data_split, fun = country_information_compiler)
+  stopCluster(cl)
+  
+  # Single core code
+  # data <- lapply(country_data_split, FUN = country_information_compiler)
   
   # Takes all information in the list and concatenate into a data frame
-  country_data <- data.frame(matrix(unlist(data), ncol=ncol(data[[1]]), byrow=TRUE, dimnames = list(NULL, colnames(data[[1]]))))
-  
-  # Converts the numerical country data to numeric
-  country_data[,c(4:10, 12)] <- apply(apply(country_data[,c(4:10, 12)], MARGIN = 2, FUN = as.character), MARGIN = 2, FUN = as.numeric)
+  country_data <- data %>% 
+    Reduce(function(dtf1,dtf2) suppressWarnings(bind_rows(dtf1,dtf2)), .)
   
   # Merges with the province data for each of the countries' capitals
   country_data <- country_data %>% left_join(province_data[, c("PID", "hre")], by = c("capital" = "PID"))
@@ -106,13 +137,15 @@ save_processing <- function(save){
   
   country_data <- country_data[, c(ind, colnames(country_data)[!colnames(country_data) %in% ind])]
   
-  if(!all(is.na(country_data$continent))){
-    country_data <- country_data[which(!is.na(country_data$continent)),]
+  # Returns a data set with all countries that have a set government name 
+  # (NA usually indicate that they do not exist at the time of the save)
+  if(!all(is.na(country_data$has_set_government_name))){
+    country_data <- country_data[which(!is.na(country_data$has_set_government_name)),]
   }
   
   resulting_data <- list(meta = meta_data, province = province_data, country = country_data)
   
-  # Returns a data set with all countries that have a continent value (NA usually indicate that they do not exist at the time of the save)
+  
   return(resulting_data)  
 }
 
