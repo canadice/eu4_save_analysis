@@ -92,9 +92,16 @@ meta_information_scraper <- function(vector){
                                      byrow = FALSE)
   
   # Removes the new (for 1.23) comparison stats
-  clean_information_matrix <- clean_information_matrix[,!(clean_information_matrix[1,] %in% c("value", "id", "comparison", "localization", "key", "selector", "sample_count"))]
+  clean_information_matrix <- clean_information_matrix[,!(clean_information_matrix[1,] %in% c("value", "id", "comparison", "localization", 
+                                                                                              "key", "selector", "sample_count", "sample_value"))]
   
   var_names <- clean_information_matrix[1,]
+  
+  if(sum(var_names %in% "date")>1){
+    clean_information_matrix <- clean_information_matrix[,-which(var_names == "date")[2]]
+    
+    var_names <- var_names[-which(var_names == "date")[2]]
+  }
   
   clean_information_data <- as.data.frame(t(data.frame(values = clean_information_matrix[2,], row.names = var_names)), stringsAsFactors = FALSE)
   
@@ -111,7 +118,8 @@ country_information_compiler <- function(x){
   require(dplyr, quietly = TRUE)
   
   # Identifies lists of information and subsets (removes) them
-  a <- which(str_detect(x, pattern = "[A-Z]*=\\{"))[-1]
+  # a <- which(str_detect(x, pattern = "[A-Z]*=\\{"))[-1]
+  a <- which(str_detect(x, pattern = "\\{"))[-1]
   b <- which(str_detect(x, pattern = "\\}"))[-length(a)]
   
   lists <- unlist(apply(X = cbind(a,b), MARGIN = 1, FUN = function(x){x[1]:x[2]}))

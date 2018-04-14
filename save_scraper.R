@@ -119,10 +119,7 @@ save_processing <- function(save){
   
   data <- parLapply(cl = cl, X = country_data_split, fun = country_information_compiler)
   stopCluster(cl)
-  
-  # Single core code
-  # data <- lapply(country_data_split, FUN = country_information_compiler)
-  
+
   # Takes all information in the list and concatenate into a data frame
   country_data <- data %>% 
     Reduce(function(dtf1,dtf2) suppressWarnings(bind_rows(dtf1,dtf2)), .)
@@ -137,11 +134,8 @@ save_processing <- function(save){
   
   country_data <- country_data[, c(ind, colnames(country_data)[!colnames(country_data) %in% ind])]
   
-  # Returns a data set with all countries that have a set government name 
-  # (NA usually indicate that they do not exist at the time of the save)
-  if(!all(is.na(country_data$has_set_government_name))){
-    country_data <- country_data[which(!is.na(country_data$has_set_government_name)),]
-  }
+  # Subsets nations that exist at the current save
+  country_data <- country_data[which(country_data$capped_development > 0),]
   
   resulting_data <- list(meta = meta_data, province = province_data, country = country_data)
   
