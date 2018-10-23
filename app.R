@@ -11,9 +11,6 @@
 ## Increasing the possible allowed size for uploaded save-files.
 options(shiny.maxRequestSize = 60 * 1024 ^ 2)
 
-## Setting the WD to the local directory of the Git.
-# setwd("F:/GitHubs/eu4_save_analysis")
-
 # Sourcing the scraper and compiler scripts
 source("save_scraper.R")
 source("data_compiler.R")
@@ -29,11 +26,6 @@ require(stringr, quietly = TRUE)
 require(parallel, quietly = TRUE)
 require(shinycssloaders, quietly = TRUE)
 require(DT, quietly = TRUE)
-
-##
-# save <- readLines(con = "C:/Users/Canadice/Documents/Paradox Interactive/Europa Universalis IV/save games/Thunderdome Session 6.eu4", encoding = "ANSI", warn = FALSE)
-# game_data <- save_processing(save)
-# save(game_data, file = "latest.RData")
 
 ############################################################
 ### User Interface of the application
