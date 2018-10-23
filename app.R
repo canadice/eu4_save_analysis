@@ -14,7 +14,7 @@ options(shiny.maxRequestSize = 60 * 1024 ^ 2)
 ## Setting the WD to the local directory of the Git.
 # setwd("F:/GitHubs/eu4_save_analysis")
 
-## Sourcing the scraper and compiler scripts
+# Sourcing the scraper and compiler scripts
 source("save_scraper.R")
 source("data_compiler.R")
 
@@ -31,8 +31,7 @@ require(shinycssloaders, quietly = TRUE)
 require(DT, quietly = TRUE)
 
 ##
-#### Bosnia is stupid in country, country_data_split[19]
-# save <- readLines(con = "C:/Users/Canadice/Documents/Paradox Interactive/Europa Universalis IV/save games/Clash of Europe 1.eu4", encoding = "ANSI", warn = FALSE)
+# save <- readLines(con = "C:/Users/Canadice/Documents/Paradox Interactive/Europa Universalis IV/save games/Thunderdome Session 6.eu4", encoding = "ANSI", warn = FALSE)
 # game_data <- save_processing(save)
 # save(game_data, file = "latest.RData")
 
@@ -202,15 +201,24 @@ server <- function(input, output) {
   
   
   #### Province data functions ####
+  current_selection_prov_var <- reactiveVal(NULL)
+  observeEvent(input$selected_province_vars, {
+    current_selection_prov_var(input$selected_province_vars)
+  })
+  
   output$data_province_vars <- renderUI({
-    checkboxGroupInput(
+    selectInput(
       inputId = "selected_province_vars",
       label = "Select variables to show:",
       choices = colnames(getData()$province)[colnames(getData()$province) != "name"],
-      selected = c("base_tax", "base_production", "base_manpower")
+      selected = current_selection_prov_var(),
+      multiple = TRUE
     )
   })
   output$province_data <- DT::renderDataTable({
+    if(length(input$selected_province_vars) == 0){
+      return(NULL)
+    }
     getData()$province[, c("name", input$selected_province_vars)]
   }, rownames = FALSE, 
   class = 'compact cell-border stripe',
@@ -219,18 +227,27 @@ server <- function(input, output) {
   
   
   #### Nation data functions ####
+  current_selection_nat_var <- reactiveVal(NULL)
+  observeEvent(input$selected_nation_vars, {
+    current_selection_nat_var(input$selected_nation_vars)
+  })
+  
   output$data_nation_vars <- renderUI({
     game_data <- getData()$country
     
-    checkboxGroupInput(
+    selectInput(
       inputId = "selected_nation_vars",
       label = "Select variables to show:",
       choices = sort(colnames(game_data)[colnames(game_data) != "Name"]),
-      selected = c("development", "prestige")
+      selected = current_selection_nat_var(),
+      multiple = TRUE
     )
     
   })
   output$country_data <- DT::renderDataTable({
+    if(length(input$selected_nation_vars) == 0){
+      return(NULL)
+    }
     game_data <- getData()$country
     
     ## Presents all nations if none specific has been selected

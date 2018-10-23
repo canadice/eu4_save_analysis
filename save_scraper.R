@@ -13,10 +13,18 @@ save_processing <- function(save){
   ### META
   ############################
   ### Starts the splitting for meta-data
-  # The first part of data existing in the save is trade, meta-data is located above
-  end <- which(str_detect(save, pattern = "^trade"))[1]
+  # The first part of data existing in the save is area data, meta-data is located above
+  meta_end <- which(str_detect(save, pattern = "^map_area_data"))[1]
   
-  meta <- save[1:(end - 1)]
+  meta <- save[1:(meta_end - 1)]
+  
+  ############################
+  ### Area data
+  ############################
+  ### Starts the splitting for area data
+  area_end <- which(str_detect(save, pattern = "^total_military_power"))[1]
+  
+  area_data <- save[meta_end:(area_end-1)]
   
   ############################
   ### Country
@@ -33,7 +41,6 @@ save_processing <- function(save){
   # 1.23 added active advisors to the save which screws with finding positions of nations' tags
   country_data <- save[start_country:(which(str_detect(save, pattern = "active_advisors=\\{"))-1)]
   
-  # Same as above with provinces
   starts <- which(str_detect(country_data, pattern = "^\t[A-Z]{3}=\\{"))
   ends <- c((starts-1)[-1], length(country_data))
   
@@ -60,7 +67,7 @@ save_processing <- function(save){
   ### Cleaning
   ############################
   # Removes original save and indices to save at least some working space
-  rm(list = c("ends", "end", "starts", "starts_provinces", "ends_provinces", "start_country", "indices", "save"))
+  rm(list = c("meta_end", "area_end", "ends", "starts", "starts_provinces", "ends_provinces", "start_country", "indices", "save"))
   
   ##########################################################################
   ### Structuring & scraping
@@ -84,6 +91,10 @@ save_processing <- function(save){
   # Takes all information in the list and concatenate into a data frame
   province_data <- data %>% 
     Reduce(function(dtf1,dtf2) suppressWarnings(bind_rows(dtf1,dtf2)), .)
+  ###############
+  ### Development
+  ###############
+  province_data$development <- province_data$base_tax + province_data$base_manpower + province_data$base_production
   
   ###############
   ### Structure
@@ -99,11 +110,11 @@ save_processing <- function(save){
   fort <- which(str_detect(colnames(x = province_data), pattern = "^fort_inf"))
   cores <- which(str_detect(colnames(x = province_data), pattern = "^core"))
   claims <- which(str_detect(colnames(x = province_data), pattern = "^claim"))
-  base <- which(str_detect(colnames(x = province_data), pattern = "^base"))
+  base <- which(str_detect(colnames(x = province_data), pattern = "^base") | str_detect(colnames(x = province_data), pattern = "development") | str_detect(colnames(x = province_data), pattern = "improve_count"))
   PID <- which(str_detect(colnames(x = province_data), pattern = "^PID"))
   originals <- which(str_detect(colnames(x = province_data), pattern = "^original"))
   info <- which(colnames(province_data) %in% c("name", "culture", "religion", "capital", "trade_goods", "trade_power",
-                                               "trade", "local_autonomy", "hre", "owner")
+                                               "trade", "center_of_trade", "local_autonomy", "hre", "owner")
   )
 
   ordering_index <- c(PID, info, base, buildings, fort, cores, claims, originals)

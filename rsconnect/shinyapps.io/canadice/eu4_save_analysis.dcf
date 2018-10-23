@@ -5,9 +5,9 @@ account: canadice
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 228712
-bundleId: 1318423
+bundleId: 1653980
 url: https://canadice.shinyapps.io/eu4_save_analysis/
-when: 1523708521.4446
+when: 1540120435.88684
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: latest_Europe_domination.RData|latest_rotr.RData
+ignoredFiles: latest_Europe_domination.RData|latest_rotr.RData|scraper attempt.R|Visualizer.R
