@@ -145,6 +145,14 @@ save_processing <- function(save){
   
   country_data <- country_data[, c(ind, colnames(country_data)[!colnames(country_data) %in% ind])]
   
+  # Counts the army size of a nation
+  army_variables <- c("num_of_banners", "num_of_janissaries",
+                      "num_of_regulars", "num_of_mercenaries",
+                      "num_of_streltsy")
+  
+  country_data$army_size <- rowSums(country_data[, army_variables[army_variables %in% colnames(country_data)]],
+                                    na.rm = TRUE)
+  
   # Subsets nations that exist at the current save
   country_data <- country_data[which(country_data$capped_development > 0),]
   

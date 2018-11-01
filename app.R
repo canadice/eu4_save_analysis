@@ -96,6 +96,7 @@ ui <-
                         wellPanel(
                           ## Allows for selection of specific nations
                           withSpinner(uiOutput("nations")),
+                          withSpinner(uiOutput("human_players")),
                           uiOutput("data_nation_vars")
                         )),
                  column(width = 10,
@@ -122,14 +123,17 @@ server <- function(input, output) {
                         column(
                           width = 5,
                           h1("Save Analysis App for Europa Universalis 4"),
-                          h4(
-                            paste(
-                              "Current date of the loaded save",
-                              meta_data$save_game,
-                              "is",
-                              meta_data$date
-                            )
-                          )
+                          h4(paste("Current date of the loaded save", 
+                                   meta_data$save_game,
+                                   "is",
+                                   meta_data$date
+                                   )
+                             ),
+                          h5("App updated for the", meta_data$name, "patch.", 
+                             tagList("Source code via", 
+                                     a("GitHub", 
+                                       href= "https://github.com/canadice/eu4_save_analysis", 
+                                       target = "_blank")))
                         )))
   })
   
@@ -178,18 +182,57 @@ server <- function(input, output) {
   
   output$nations <- renderUI({
     game_data <- getData()$country
-    # Selecting the nations to present in the table
-    selectInput(
-      inputId = "nations",
-      label = paste("Select nations to show in the table."),
-      choices = sort(game_data$Name),
-      selected = current_selection_nat(),
-      multiple = TRUE,
-      selectize = TRUE,
-      width = NULL,
-      size = NULL
-    )
+    
+    if(is.null(input$only_human)){
+      
+    } else {
+      if(input$only_human == "No"){
+        # Selecting the nations to present in the table
+        selectInput(
+          inputId = "nations",
+          label = paste("Select nations to show in the table."),
+          choices = sort(game_data$Name),
+          selected = current_selection_nat(),
+          multiple = TRUE,
+          selectize = TRUE,
+          width = NULL,
+          size = NULL
+        )  
+      } else {
+        selectInput(
+          inputId = "nations",
+          label = paste("Select nations to show in the table."),
+          choices = sort(game_data$Name),
+          selected = game_data$Name[game_data$human == "yes" | game_data$was_player == "yes"],
+          multiple = TRUE,
+          selectize = TRUE,
+          width = NULL,
+          size = NULL
+        )
+      }  
+    }
+    
   })
+  
+  #### Output to select only human players to show in a multiplayer game ####
+  output$human_players <- renderUI({
+    game_data <- getData()$country
+    
+    multiplayer <- getData()$meta$multi_player
+    
+    if(multiplayer != "yes"){
+      NULL
+    } else {
+      radioButtons(inputId = "only_human",
+                   label = paste("Do you want to select all human players?"),
+                   choices = c("Yes", "No"),
+                   selected = "No",
+                   width = NULL)  
+    }
+    
+  })
+  
+  
   
   
   #### Province data functions ####
