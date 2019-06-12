@@ -12,20 +12,23 @@
 options(shiny.maxRequestSize = 60 * 1024 ^ 2)
 
 # Sourcing the scraper and compiler scripts
-source("save_scraper.R")
-source("data_compiler.R")
+# source("save_scraper.R")
+# source("data_compiler.R")
+source("functions.R")
 
 ## Loading the required packages
 require(shiny, quietly = TRUE)
 require(shinythemes, quietly = TRUE)
 require(stringr, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
+require(RColorBrewer, quietly = TRUE)
 require(dplyr, quietly = TRUE)
 require(tidyr, quietly = TRUE)
 require(stringr, quietly = TRUE)
 require(parallel, quietly = TRUE)
 require(shinycssloaders, quietly = TRUE)
 require(DT, quietly = TRUE)
+require(plotly, quietly = TRUE)
 
 ############################################################
 ### User Interface of the application
@@ -104,7 +107,37 @@ ui <-
                           width = 12,
                           withSpinner(dataTableOutput("country_data"))
                         )))
+               )),
+      
+      #### Scoring tab
+      tabPanel("Campaign Scoring",
+               fluidRow(
+                 column(width = 12,
+                        dataTableOutput("scoring_data")
+                        )
+               )),
+      #### Time-Series tab
+      tabPanel("Time series",
+               fluidRow(
+                 column(width = 2,
+                        wellPanel(
+                          radioButtons(inputId = "ts_variable",
+                                       label = "What to show?",
+                                       choiceNames = c("Income", 
+                                                       "Inflation",
+                                                       "Score",
+                                                       "Size of Nation"),
+                                       choiceValues = c("income", 
+                                                        "inflation",
+                                                        "score",
+                                                        "nation_size")),
+                          uiOutput("ts_nations")
+                        )),
+                 column(width = 10,
+                        withSpinner(plotlyOutput("time_series"))
+                 )
                ))
+      
       #### End of Panels ####
     )
   )
@@ -296,8 +329,107 @@ server <- function(input, output) {
   }, rownames = FALSE,
   class = 'compact cell-border stripe',
   options = list(orderClasses = TRUE, autoWidth = TRUE, pageLength = 20))
-  
-  
+  #### Scoring for multiplayer sessions ####
+  output$scoring_data <- DT::renderDataTable({
+    game_data <- getData()
+    
+    country <- game_data$country[which(game_data$country$was_player == "yes"),
+                                 c("Name",
+                                   "tag",
+                                   "score_place",
+                                   "prestige",
+                                   
+                                   "capped_development",
+                                   "raw_development",
+                                   "treasury",
+                                   "estimated_monthly_income",
+                                   "base_tax",
+                                   "loan_size", 
+                                   "estimated_loan",
+                                   "mercantilism",
+                                   "inflation",
+                                   
+                                   "army_tradition",
+                                   "army_professionalism",
+                                   "max_historic_army_professionalism",
+                                   "total_war_worth",
+                                   "army_size",
+                                   "manpower",
+                                   "max_manpower",
+                                   "sailors",
+                                   "max_sailors",
+                                   
+                                   "num_uncontested_cores",
+                                   "num_owned_home_cores",
+                                   "num_of_core_ports",
+                                   "num_of_total_ports",
+                                   "num_of_cities",
+                                   "num_of_cardinals",
+                                   "num_of_allies",
+                                   "num_of_royal_marriages",
+                                   "num_of_subjects",
+                                   
+                                   "innovativeness",
+                                   "meritocracy",
+                                   "republican_tradition",
+                                   "average_unrest",
+                                   "average_autonomy",
+                                   "great_power_score",
+                                   "card_score",
+                                   "is_elector")]
+    
+    human_provinces <- game_data$province[game_data$province$controller %in% country$tag,
+                                          c("name",
+                                            "owner", 
+                                            "controller",
+                                            "base_tax",
+                                            "base_production",
+                                            "base_manpower",
+                                            "trade_goods",
+                                            "trade_power",
+                                            "improve_count",
+                                            "center_of_trade",
+                                            "center_of_religion")]
+    
+    contested_provinces_name <- c(
+      # Konigsberg
+      "Königsberg", "Królewiec", 
+      # Prague
+      "Praha", "Prague", 
+      # Wien
+      "Wien", "Vienna",
+      # Regensburg
+      "Regensburg", 
+      # Paris
+      "Paris", 
+      # London
+      "London", "Middlesex",
+      # Madrid
+      "Madrid", 
+      # Rome + Vatican
+      "Roma", "Rome", "Vaticana", "Vatican",
+      # Copenhagen
+      "Copenhagen", "København",
+      # Constantinople
+      "Constantinople", "Istanbul", "Konstantinoupolis")
+    
+    contested_provinces <- game_data$province[which(game_data$province$name %in% contested_provinces_name),]
+    
+    if(nrow(contested_provinces) > 0){
+      for(i in contested_provinces$name){
+        var_name <- paste("province", i, sep = "_")
+        
+        country <- country %>%
+          mutate(!!var_name := case_when(contested_provinces$controller[contested_provinces$name == i] == tag ~ TRUE,
+                                  TRUE ~ FALSE))
+      }  
+    }
+    
+    country
+    
+  }, rownames = FALSE,
+  class = 'compact cell-border stripe',
+  options = list(orderClasses = TRUE, autoWidth = TRUE, pageLength = 40))
   
   #######################################
   ##### Selection functions
@@ -426,6 +558,69 @@ server <- function(input, output) {
   #######################################
   ##### Visualizations
   #######################################
+  #### Visualization of Time-Series data ####
+  current_selection_ts_nat <- reactiveVal(NULL)
+  observeEvent(input$ts_nations, {
+    current_selection_ts_nat(input$ts_nations)
+  })
+  
+  output$ts_nations <- renderUI({
+    game_data <- getData()
+    game_data <- game_data$country$Name[which(game_data$country$was_player == "yes")]
+    
+    selectInput(
+      inputId = "ts_nations",
+      label = HTML("Select nations to highlight in the table. <br/>
+                    Maximum of 7 nations can be selected"),
+      choices = sort(game_data),
+      selected = sort(game_data)[1:4],
+      multiple = TRUE,
+      selectize = TRUE,
+      width = NULL,
+      size = NULL
+        )
+  })
+  
+  output$time_series <- renderPlotly({
+    game_data <- getData()
+    
+    human_country <- game_data$country[which(game_data$country$was_player == "yes"), c("tag", "Name")]
+    
+    data <- lapply(seq_along(game_data$time_series), FUN = function(x, name, i){
+      x_reduced <- x[[i]]
+      
+      x_reduced <- x_reduced[x_reduced$tag %in% human_country$tag,]
+      
+      x_reduced$var <- name[[i]]
+      
+      x_reduced
+    }, name = names(game_data$time_series), x = game_data$time_series)
+    
+    data <- do.call(rbind, data)
+    
+    data <- data %>% 
+      left_join(human_country, by = c("tag" = "tag"))
+    
+    data$groups <- factor(data$Name, levels = c(input$ts_nations, "Other"))
+    data$groups[is.na(data$groups)] <- "Other"
+    
+    p <- ggplot(data[data$var == input$ts_variable,]) + 
+      aes(x = year, y = value, group = Name, color = groups, size = groups) +
+      geom_line() + theme_bw() + 
+      theme(text = element_text(size = 16),
+            axis.title.y = element_text(angle = 0, vjust = 0.5),
+            plot.title = element_text(hjust = 0.5)) +
+      scale_colour_manual(values = c(brewer.pal(n = max(3,length(input$ts_nations)),
+                                              name = "Paired"), "grey"),
+                          guide = guide_legend(title = "Country")) +
+      scale_size_manual(values = c(rep(1, length(input$ts_nations)), 0.5),
+                        guide = guide_legend(title = "Country")) + 
+      labs(x = "Year", y = "Values", title = str_to_title(input$ts_variable))
+    
+    ggplotly(p, tooltip = c("Name", "y", "x"), height = 600)
+    
+  })  
+  
   #### Pie-chart visualization of own groupings ####
   output$pie_chart_facet_comparison <- renderPlot({
     if (!is.null(input$offense) | !is.null(input$defense)) {

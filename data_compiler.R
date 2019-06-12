@@ -93,7 +93,8 @@ meta_information_scraper <- function(vector){
   
   # Removes the new (for 1.23) comparison stats
   clean_information_matrix <- clean_information_matrix[,!(clean_information_matrix[1,] %in% c("value", "id", "comparison", "localization", 
-                                                                                              "key", "selector", "sample_count", "sample_value"))]
+                                                                                              "key", "selector", "sample_count", "sample_value",
+                                                                                              "member", "name"))]
   
   var_names <- clean_information_matrix[1,]
   
