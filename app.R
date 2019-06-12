@@ -9,7 +9,7 @@
 ### Basic options
 ############################################################
 ## Increasing the possible allowed size for uploaded save-files.
-options(shiny.maxRequestSize = 60 * 1024 ^ 2)
+options(shiny.maxRequestSize = 100 * 1024 ^ 2)
 
 # Sourcing the scraper and compiler scripts
 # source("save_scraper.R")
