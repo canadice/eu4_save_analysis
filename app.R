@@ -379,7 +379,8 @@ server <- function(input, output) {
                                    "is_elector")]
     
     human_provinces <- game_data$province[game_data$province$controller %in% country$tag,
-                                          c("name",
+                                          colnames(game_data$province) %in% 
+                                            c("name",
                                             "owner", 
                                             "controller",
                                             "base_tax",
@@ -391,29 +392,29 @@ server <- function(input, output) {
                                             "center_of_trade",
                                             "center_of_religion")]
     
-    contested_provinces_name <- c(
+    contested_provinces_id <- c(
       # Konigsberg
-      "Königsberg", "Królewiec", 
+      390,
       # Prague
-      "Praha", "Prague", 
+      781, 
       # Wien
-      "Wien", "Vienna",
+      2172,
       # Regensburg
-      "Regensburg", 
+      177, 
       # Paris
-      "Paris", 
+      548, 
       # London
-      "London", "Middlesex",
+      2268,
       # Madrid
-      "Madrid", 
+      1236, 
       # Rome + Vatican
-      "Roma", "Rome", "Vaticana", "Vatican",
+      2235, 2708,
       # Copenhagen
-      "Copenhagen", "København",
+      411,
       # Constantinople
-      "Constantinople", "Istanbul", "Konstantinoupolis")
+      2233)
     
-    contested_provinces <- game_data$province[which(game_data$province$name %in% contested_provinces_name),]
+    contested_provinces <- game_data$province[which(game_data$province$ID %in% contested_provinces_id),]
     
     if(nrow(contested_provinces) > 0){
       for(i in contested_provinces$name){

@@ -64,10 +64,12 @@ data_structurer <- function(save){
   # Checks for lines with two starting braces
   append <- which(str_detect(save, pattern = "\\{\\{"))
   if(length(append) > 0){
-    save <- c(save[1:(append-1)], 
-              str_replace(save[append], pattern = "\\{\\{", replacement = "\\{"), 
+    for(i in 1:length(append)){
+      save <- c(save[1:(append[i]-1)], 
+              str_replace(save[append[i]], pattern = "\\{\\{", replacement = "\\{"), 
               "{", 
-              save[(append+1):length(save)])
+              save[(append[i]+1):length(save)])
+    }
   }
   
   split_data_list <- data_compiler(save)
