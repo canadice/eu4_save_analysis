@@ -286,7 +286,7 @@ save_processing <- function(save){
   
   # Merges with the province data for each of the countries' capitals
   countries <- countries %>% 
-    left_join(provinces[, c("ID", "hre")], by = c("capital" = "ID"))
+    left_join(provinces[, c("ID", "hre_liberated")], by = c("capital" = "ID"))
   
   # Merges with the country names from the tags
   if(any(str_detect(structure$mod_enabled, pattern = "Voltaire"))){
